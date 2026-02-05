@@ -125,4 +125,53 @@ using Test
         @test_throws ArgumentError fred.tags.related_tags(["tag", "names"]; offset=-1)
         @test_throws ArgumentError fred.tags.series(["tag", "names"]; offset=-1)
     end
+
+    @testset "Sort Order Validation" begin
+        @test_throws ArgumentError fred.category.series(1; sort_order="unknown")
+        @test_throws ArgumentError fred.category.tags(1; sort_order="unknown")
+        @test_throws ArgumentError fred.category.related_tags(1, ["some tag"]; sort_order="unknown")
+        @test_throws ArgumentError fred.releases.get_all(sort_order="unknown")
+        @test_throws ArgumentError fred.releases.dates(sort_order="unknown")
+        @test_throws ArgumentError fred.release.dates(1; sort_order="unknown")
+        @test_throws ArgumentError fred.release.series(1; sort_order="unknown")
+        @test_throws ArgumentError fred.release.tags(1; sort_order="unknown")
+        @test_throws ArgumentError fred.release.related_tags(1, ["some", "tags"]; sort_order="unknown")
+        @test_throws ArgumentError fred.series.observations("SERIES"; sort_order="unknown")
+        @test_throws ArgumentError fred.series.search("search text"; sort_order="unknown")
+        @test_throws ArgumentError fred.series.search_tags("search text"; sort_order="unknown")
+        @test_throws ArgumentError fred.series.search_related_tags("search text", ["tag", "names"]; sort_order="unknown")
+        @test_throws ArgumentError fred.series.tags("SERIES", sort_order="unknown")
+        @test_throws ArgumentError fred.series.vintagedates("SERIES"; sort_order="unknown")
+        @test_throws ArgumentError fred.source.get_all(sort_order="unknown")
+        @test_throws ArgumentError fred.source.releases(1; sort_order="unknown")
+        @test_throws ArgumentError fred.tags.get_all(sort_order="unknown")
+        @test_throws ArgumentError fred.tags.related_tags(["tag", "names"]; sort_order="unknown")
+        @test_throws ArgumentError fred.tags.series(["tag", "names"]; sort_order="unknown")
+    end
+
+    @testset "Filter Variable Validation" begin
+        @test_throws ArgumentError fred.category.series(1; filter_variable="nonsense")
+        @test_throws ArgumentError fred.release.series(1; filter_variable="nonsense")
+        @test_throws ArgumentError fred.series.search("search text"; filter_variable="nonsense")
+    end
+
+    @testset "Tag Group ID Validation" begin
+        @test_throws ArgumentError fred.category.tags(1; tag_group_id="unk")
+        @test_throws ArgumentError fred.category.related_tags(1, ["tag", "names"]; tag_group_id="zzz")
+        @test_throws ArgumentError fred.release.tags(1; tag_group_id="zzz")
+        @test_throws ArgumentError fred.release.related_tags(1, ["tag", "names"]; tag_group_id="zzz")
+        @test_throws ArgumentError fred.series.search_tags("search text"; tag_group_id="zzz")
+        @test_throws ArgumentError fred.series.search_related_tags("search text", ["tag", "names"]; tag_group_id="zzz")
+        @test_throws ArgumentError fred.tags.get_all(tag_group_id="zzz")
+        @test_throws ArgumentError fred.tags.related_tags(["tag", "names"]; tag_group_id="zzz")
+    end
+
+    @testset "Validate Others" begin
+        @test_throws ArgumentError fred.series.observations("SERIES"; units="km")
+        @test_throws ArgumentError fred.series.observations("SERIES"; frequency="hourly")
+        @test_throws ArgumentError fred.series.observations("SERIES"; aggregation_method="mean")
+
+        @test_throws ArgumentError fred.series.search("search text"; search_type="invalid_search_type")
+        @test_throws ArgumentError fred.series.updates(filter_value="none")
+    end
 end
