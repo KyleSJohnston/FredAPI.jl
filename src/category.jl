@@ -86,6 +86,47 @@ function related(
 end
 
 
+function validate_limit(limit::Integer)
+    1 <= limit <= 1000 || throw(ArgumentError("limit must be between 1 and 1000"))
+    return limit
+end
+
+function validate_offset(offset::Integer)
+    offset >= 0 || throw(ArgumentError("offset must be non-negative"))
+    return offset
+end
+
+# validate_order_by appears to deviate based on the return type of the function
+# order_by must be one of the fields in the element type of the response, but
+# not all fields are permitted.
+# TODO: consider whether this logic can sit in responses.jl
+
+function validate_sort_order(sort_order::AbstractString)
+    sort_order == "asc" || sort_order == "desc" || throw(ArgumentError("invalid sort_order $sort_order"))
+    return String(sort_order)
+end
+
+function validate_filter_variable(filter_variable::AbstractString)
+    filter_variable == "frequency" ||
+        filter_variable == "units" ||
+        filter_variable == "seasonal_adjustment" ||
+        throw(ArgumentError("invalide filter_variable $filter_variable"))
+    return String(filter_variable)
+end
+
+function validate_tag_group_id(tag_group_id::AbstractString)
+    tag_group_id in (
+        "freq",  # frequency
+        "gen",   # general or concept
+        "geo",   # geography
+        "geot",  # geography type
+        "rls",   # release
+        "seas",  # seasonal adjustment
+        "src",   # source
+    ) || throw(ArgumentError("invalide tag_group_id $tag_group_id"))
+    return String(tag_group_id)
+end
+
 """
     series(category_id)
 
@@ -119,22 +160,36 @@ function series(
         push!(query, "realtime_end" => string(realtime_end))
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "series_id",
+            "title",
+            "units",
+            "frequency",
+            "seasonal_adjustment",
+            "realtime_start",
+            "realtime_end",
+            "last_updated",
+            "observation_start",
+            "observation_end",
+            "popularity",
+            "group_popularity",
+        ) || throw(ArgumentError("invalid order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     if !isnothing(filter_variable)
-        push!(query, "filter_variable" => filter_variable)  # TODO: validate
+        push!(query, "filter_variable" => validate_filter_variable(filter_variable))
     end
     if !isnothing(filter_value)
-        push!(query, "filter_value" => filter_value)
+        push!(query, "filter_value" => String(filter_value))
     end
     if length(tag_names) > 0
         push!(query, "tag_names" => join(tag_names, ';'))  # TODO: maybe validate
@@ -146,6 +201,13 @@ function series(
     return JSON.parse(http_response.body, SeriesResponse)
 end
 
+"""
+    tags(category_id; <keyword arguments>)
+
+Get the tags for the `category_id` category
+
+See [`fred/category/tags`](https://fred.stlouisfed.org/docs/api/fred/category_tags.html).
+"""
 function tags(
     category_id::Integer;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -174,27 +236,41 @@ function tags(
         push!(query, "tag_names" => join(tag_names, ';'))  # TODO: maybe validate
     end
     if !isnothing(tag_group_id)
-        push!(query, "tag_group_id" => tag_group_id)  # TODO: validate
+        push!(query, "tag_group_id" => validate_tag_group_id(tag_group_id))
     end
     if !isnothing(search_text)
         push!(query, "search_text" => search_text)
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "series_count",
+            "popularity",
+            "created",
+            "name",
+            "group_id",
+        ) || throw(ArgumentError("invalide order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     http_response = HTTP.get("https://api.stlouisfed.org/fred/category/tags"; query)
     return JSON.parse(http_response.body, TagsResponse)
 end
 
+"""
+    related_tags(category_id, tag_names; <keyword arguments>)
+
+Get the related tags for one or more tags within a category
+
+See [`fred/category/related_tags`](https://fred.stlouisfed.org/docs/api/fred/category_related_tags.html).
+"""
 function related_tags(
     category_id::Integer,
     tag_names::AbstractVector{<:AbstractString};
@@ -225,22 +301,29 @@ function related_tags(
         push!(query, "exclude_tag_names" => join(exclude_tag_names, ';'))  # TODO: maybe validate
     end
     if !isnothing(tag_group_id)
-        push!(query, "tag_group_id" => tag_group_id)  # TODO: validate
+        push!(query, "tag_group_id" => validate_tag_group_id(tag_group_id))
     end
     if !isnothing(search_text)
         push!(query, "search_text" => search_text)
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "series_count",
+            "popularity",
+            "created",
+            "name",
+            "group_id",
+        ) || throw(ArgumentError("invalid order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     http_response = HTTP.get("https://api.stlouisfed.org/fred/category/related_tags"; query)
     return JSON.parse(http_response.body, TagsResponse)
