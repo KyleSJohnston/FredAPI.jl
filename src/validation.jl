@@ -1,6 +1,8 @@
 module Validation
 
-export validate_limit, validate_offset, validate_sort_order, validate_tag_group_id
+export validate_limit, validate_offset, validate_sort_order,
+    validate_tag_group_id, validate_units, validate_frequency,
+    validate_aggregation_method, validate_search_type, validate_filter_value
 
 function validate_limit(limit::Integer; lbound=1, ubound=1_000)
     lbound <= limit <= ubound || throw(ArgumentError("limit of $limit not between $lbound and $ubound"))
@@ -41,6 +43,68 @@ function validate_tag_group_id(tag_group_id::AbstractString)
         "src",   # source
     ) || throw(ArgumentError("invalid tag_group_id $tag_group_id"))
     return String(tag_group_id)
+end
+
+function validate_units(units::AbstractString)
+    units in (
+        "lin",  # levels (no transformation)
+        "chg",  # change
+        "ch1",  # change from prior year
+        "pch",  # percentage change
+        "pc1",  # percentage change from prior year
+        "pca",  # compounded annual rate of change
+        "cch",  # continuously compounded rate of change
+        "cca",  # continuously compounded annual rate of change
+        "log",  # natural log
+    ) || throw(ArgumentError("invalid units $units"))
+    return String(units)
+end
+
+function validate_frequency(frequency::AbstractString)
+    frequency in (
+        "d",     # daily
+        "w",     # weekly
+        "bw",    # biweekly
+        "m",     # monthly
+        "q",     # quarterly
+        "sa",    # semiannual
+        "a",     # annual
+        "wef",   # weekly, ending Friday
+        "weth",  # weekly, ending Thursday
+        "wew",   # weekly, ending Wednesday
+        "wetu",  # weekly, ending Tuesday
+        "wem",   # weekly, ending Monday
+        "wesu",  # weekly, ending Sunday
+        "wesa",  # weekly, ending Saturday
+        "bwew",  # biweekly, ending Wednesday
+        "bwem",  # biweekly, ending Monday
+    ) || throw(ArgumentError("invalid frequency $frequency"))
+    return String(frequency)
+end
+
+function validate_aggregation_method(aggregation_method::AbstractString)
+    aggregation_method in (
+        "avg",  # average
+        "sum",  # sum
+        "eop",  # end-of-period
+    ) || throw(ArgumentError("invalid aggregation_method $aggregation_method"))
+    return String(aggregation_method)
+end
+
+function validate_search_type(search_type::AbstractString)
+    search_type == "full_text" ||
+        search_type == "series_id" ||
+        throw(ArgumentError("invalid search_type $search_type"))
+    return String(search_type)
+end
+
+function validate_filter_value(filter_value::AbstractString)
+    filter_value in (
+        "macro",     # macroeconomic dqata series
+        "regional",  # series for parts of the U.S. (e.g.: states, counties, MSAs)
+        "all",       # no filter
+    ) || throw(ArgumentError("invalid filter_value $filter_value"))
+    return String(filter_value)
 end
 
 end  # module
