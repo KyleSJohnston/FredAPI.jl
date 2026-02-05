@@ -1,8 +1,9 @@
 module Validation
 
 export validate_limit, validate_offset, validate_sort_order,
-    validate_tag_group_id, validate_units, validate_frequency,
-    validate_aggregation_method, validate_search_type, validate_filter_value
+    validate_filter_variable, validate_tag_group_id, validate_units,
+    validate_frequency, validate_aggregation_method, validate_search_type,
+    validate_filter_value
 
 function validate_limit(limit::Integer; lbound=1, ubound=1_000)
     lbound <= limit <= ubound || throw(ArgumentError("limit of $limit not between $lbound and $ubound"))
