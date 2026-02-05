@@ -32,6 +32,5 @@ functions.
 """
 get(::Nothing)::String = return API_KEY[]
 get(api_key::AbstractString)::String = validate(api_key)
-get(api_key::String) = api_key
 
 end  # module
