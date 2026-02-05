@@ -1,6 +1,9 @@
 module FredAPI
 
+using Compat
+
 include("api_key.jl")
+include("validation.jl")
 include("responses.jl")
 
 include("category.jl")
@@ -10,7 +13,7 @@ include("source.jl")
 include("tags.jl")
 
 # Need to be able to set the api key
-public APIKey
+@compat public APIKey
 
 # Export response objects for users
 using .Responses
@@ -25,6 +28,6 @@ export Tag, TagsResponse
 export VintageDatesResponse
 
 # Make fully-qualified endpoint functions available
-public category, release, releases, series, source, tags
+@compat public category, release, releases, series, source, tags
 
 end # module FredAPI

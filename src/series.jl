@@ -1,5 +1,6 @@
 module series
 
+using Compat
 using Dates: Date, @dateformat_str, DateTime, format
 using HTTP
 using JSON
@@ -7,17 +8,25 @@ using JSON
 using ..APIKey
 using ..Responses: CategoryResponse, ObservationsResponse, ReleaseResponse,
     Series, SeriesResponse, SingleSeriesResponse, TagsResponse, VintageDatesResponse
+using ..Validation
 
-public get, categories, observations, release, search, search_tags, search_related_tags,
-    tags, updates, vintagedates
+@compat public get, categories, observations, release, search, search_tags,
+    search_related_tags, tags, updates, vintagedates
 
+"""
+    get(series_id; <keyword arguments>)
+
+Get a data series
+
+See [`fred/series`](https://fred.stlouisfed.org/docs/api/fred/series.html).
+"""
 function get(
     series_id::AbstractString;
     api_key::Union{Nothing,AbstractString}=nothing,
     realtime_start::Union{Nothing,Date}=nothing,
     realtime_end::Union{Nothing,Date}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => series_id,
@@ -32,13 +41,20 @@ function get(
     return JSON.parse(http_response.body, SingleSeriesResponse)
 end
 
+"""
+    categories(series_id; <keyword arguments>)
+
+Get the categories for series `series_id`
+
+See [`fred/series/categories`](https://fred.stlouisfed.org/docs/api/fred/series_categories.html).
+"""
 function categories(
     series_id::AbstractString;
     api_key::Union{Nothing,AbstractString}=nothing,
     realtime_start::Union{Nothing,Date}=nothing,
     realtime_end::Union{Nothing,Date}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => series_id,
@@ -60,6 +76,13 @@ end
     INITIAL=4
 end
 
+"""
+    observations(series_id; <keyword arguments>)
+
+Get the observations or data values for a data series
+
+See [`fred/series/observations`](https://fred.stlouisfed.org/docs/api/fred/series_observations.html).
+"""
 function observations(
     series_id::AbstractString;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -76,7 +99,7 @@ function observations(
     output_type::Union{Nothing,OutputType}=nothing,
     vintage_dates::Vector{Date}=Date[],
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => string(series_id),
@@ -88,13 +111,13 @@ function observations(
         push!(query, "realtime_end" => string(realtime_end))
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit; ubound=100_000))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     if !isnothing(observation_start)
         push!(query, "observation_start" => string(observation_start))
@@ -103,13 +126,13 @@ function observations(
         push!(query, "observation_end" => string(observation_end))
     end
     if !isnothing(units)
-        push!(query, "units" => units)
+        push!(query, "units" => validate_units(units))
     end
     if !isnothing(frequency)
-        push!(query, "frequency" => frequency)
+        push!(query, "frequency" => validate_frequency(frequency))
     end
     if !isnothing(aggregation_method)
-        push!(query, "aggregation_method" => aggregation_method)
+        push!(query, "aggregation_method" => validate_aggregation_method(aggregation_method))
     end
     if !isnothing(output_type)
         push!(query, "output_type" => Int(output_type))
@@ -121,13 +144,20 @@ function observations(
     return JSON.parse(http_response.body, ObservationsResponse)
 end
 
+"""
+    release(series_id; <keyword arguments>)
+
+Get the release for the `series_id` series
+
+See [`fred/series/release`](https://fred.stlouisfed.org/docs/api/fred/series_release.html).
+"""
 function release(
     series_id::AbstractString;
     api_key::Union{Nothing,AbstractString}=nothing,
     realtime_start::Union{Nothing,Date}=nothing,
     realtime_end::Union{Nothing,Date}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => string(series_id),
@@ -142,6 +172,13 @@ function release(
     return JSON.parse(http_response.body, ReleaseResponse)
 end
 
+"""
+    search(search_text; <keyword arguments>)
+
+Gets the series that match `search_text`
+
+See [`fred/series/search`](https://fred.stlouisfed.org/docs/api/fred/series_search.html).
+"""
 function search(
     search_text::AbstractString;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -157,13 +194,13 @@ function search(
     tag_names::AbstractVector{<:AbstractString}=String[],
     exclude_tag_names::AbstractVector{<:AbstractString}=String[],
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "search_text" => search_text,
     ]
     if !isnothing(search_type)
-        push!(query, "search_type" => string(search_type))  # TODO: validate
+        push!(query, "search_type" => validate_search_type(search_type))
     end
     if !isnothing(realtime_start)
         push!(query, "realtime_start" => string(realtime_start))
@@ -172,19 +209,34 @@ function search(
         push!(query, "realtime_end" => string(realtime_end))
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "search_rank",
+            "series_id",
+            "title",
+            "units",
+            "frequency",
+            "seasonal_adjustment",
+            "realtime_start",
+            "realtime_end",
+            "last_updated",
+            "observation_start",
+            "observation_end",
+            "popularity",
+            "group_popularity",
+        ) || throw(ArgumentError("invalid order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     if !isnothing(filter_variable)
-        push!(query, "filter_variable" => filter_variable)  # TODO: validate
+        push!(query, "filter_variable" => validate_filter_variable(filter_variable))
     end
     if !isnothing(filter_value)
         push!(query, "filter_value" => filter_value)
@@ -199,6 +251,13 @@ function search(
     return JSON.parse(http_response.body, SeriesResponse)
 end
 
+"""
+    search_tags(series_search_text; <keyword arguments>)
+
+Get the tags for a series search
+
+See [`fred/series/search/tags`](https://fred.stlouisfed.org/docs/api/fred/series_search_tags.html).
+"""
 function search_tags(
     series_search_text::AbstractString;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -212,7 +271,7 @@ function search_tags(
     order_by::Union{Nothing,AbstractString}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_search_text" => series_search_text,
@@ -227,27 +286,41 @@ function search_tags(
         push!(query, "tag_names" => join(tag_names, ';'))
     end
     if !isnothing(tag_group_id)
-        push!(query, "tag_group_id" => tag_group_id)
+        push!(query, "tag_group_id" => validate_tag_group_id(tag_group_id))
     end
     if !isnothing(tag_search_text)
         push!(query, "tag_search_text" => tag_search_text)
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "series_count",
+            "popularity",
+            "created",
+            "name",
+            "group_id",
+        ) || throw(ArgumentError("invalid order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     http_response = HTTP.get("https://api.stlouisfed.org/fred/series/search/tags"; query)
     return JSON.parse(http_response.body, TagsResponse)
 end
 
+"""
+    search_related_tags(series_search_text, tag_names; <keyword arguments>)
+
+Get the related tags for `tag_names` matching `series_search_text`
+
+See [`fred/series/search/related_tags`](https://fred.stlouisfed.org/docs/api/fred/series_search_related_tags.html).
+"""
 function search_related_tags(
     series_search_text::AbstractString,
     tag_names::AbstractVector{<:AbstractString}=String[];
@@ -262,7 +335,7 @@ function search_related_tags(
     order_by::Union{Nothing,AbstractString}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_search_text" => series_search_text,
@@ -278,27 +351,41 @@ function search_related_tags(
         push!(query, "exclude_tag_names" => join(exclude_tag_names, ';'))  # TODO: maybe validate
     end
     if !isnothing(tag_group_id)
-        push!(query, "tag_group_id" => tag_group_id)
+        push!(query, "tag_group_id" => validate_tag_group_id(tag_group_id))
     end
     if !isnothing(tag_search_text)
         push!(query, "tag_search_text" => tag_search_text)
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "series_count",
+            "popularity",
+            "created",
+            "name",
+            "group_id",
+        ) || throw(ArgumentError("invalid order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     http_response = HTTP.get("https://api.stlouisfed.org/fred/series/search/related_tags"; query)
     return JSON.parse(http_response.body, TagsResponse)
 end
 
+"""
+    tags(series_id; <keyword arguments>)
+
+Get tags for the `series_id` series
+
+See [`fred/series/tags`](https://fred.stlouisfed.org/docs/api/fred/series_tags.html).
+"""
 function tags(
     series_id::AbstractString;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -307,7 +394,7 @@ function tags(
     order_by::Union{Nothing,AbstractString}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => series_id,
@@ -319,17 +406,29 @@ function tags(
         push!(query, "realtime_end" => string(realtime_end))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "series_count",
+            "popularity",
+            "created",
+            "name",
+            "group_id",
+        ) || throw(ArgumentError("invalid order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     http_response = HTTP.get("https://api.stlouisfed.org/fred/series/tags"; query)
     return JSON.parse(http_response.body, TagsResponse)
 end
 
-const TIME_FORMAT = dateformat"yyyymmddHHMM"
+"""
+    updates(; <keyword arguments>)
 
+Get series updates within the last two weeks
+
+See [`fred/series/updates`](https://fred.stlouisfed.org/docs/api/fred/series_updates.html).
+"""
 function updates(;
     api_key::Union{Nothing,AbstractString}=nothing,
     realtime_start::Union{Nothing,Date}=nothing,
@@ -340,7 +439,7 @@ function updates(;
     start_time::Union{Nothing,DateTime}=nothing,
     end_time::Union{Nothing,DateTime}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
     ]
@@ -351,19 +450,19 @@ function updates(;
         push!(query, "realtime_end" => string(realtime_end))
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(filter_value)
-        push!(query, "filter_value" => filter_value)
+        push!(query, "filter_value" => validate_filter_value(filter_value))
     end
     if !isnothing(start_time) && !isnothing(end_time)
         if start_time <= end_time
             # set both
-            push!(query, "start_time" => format(start_time, TIME_FORMAT))
-            push!(query, "end_time" => format(end_time, TIME_FORMAT))
+            push!(query, "start_time" => format(start_time, dateformat"yyyymmddHHMM"))
+            push!(query, "end_time" => format(end_time, dateformat"yyyymmddHHMM"))
         else
             throw(ArgumentError("start_time cannot be later than end_time"))
         end
@@ -376,6 +475,13 @@ function updates(;
     return JSON.parse(http_response.body, SeriesResponse)
 end
 
+"""
+    vintagedates(series_id; <keyword arguments>)
+
+Get historical dates for when the `series_id` series data values were released/revised
+
+See [`fred/series/vintagedates`](https://fred.stlouisfed.org/docs/api/fred/series_vintagedates.html).
+"""
 function vintagedates(
     series_id::AbstractString;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -385,7 +491,7 @@ function vintagedates(
     offset::Union{Nothing,Integer}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => series_id,
@@ -397,13 +503,13 @@ function vintagedates(
         push!(query, "realtime_end" => string(realtime_end))
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit; ubound=10_000))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     http_response = HTTP.get("https://api.stlouisfed.org/fred/series/vintagedates"; query)
     return JSON.parse(http_response.body, VintageDatesResponse)
