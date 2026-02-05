@@ -1,5 +1,6 @@
 module category
 
+using Compat
 using Dates: Date, DateTime
 using HTTP
 using JSON
@@ -8,7 +9,7 @@ using ..APIKey
 using ..Responses: Category, CategoryResponse, SeriesResponse, TagsResponse
 using ..Validation
 
-public get, children, related, series, tags, related_tags
+@compat public get, children, related, series, tags, related_tags
 
 """
     get(category_id=0)

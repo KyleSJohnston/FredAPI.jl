@@ -1,5 +1,6 @@
 module tags
 
+using Compat
 using Dates: Date
 using HTTP
 using JSON
@@ -8,7 +9,7 @@ using ..APIKey
 using ..Responses: SeriesResponse, TagsResponse
 using ..Validation
 
-public get_all, related_tags, series
+@compat public get_all, related_tags, series
 
 """
     get_all(; <keyword arguments>)

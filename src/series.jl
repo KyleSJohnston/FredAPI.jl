@@ -1,5 +1,6 @@
 module series
 
+using Compat
 using Dates: Date, @dateformat_str, DateTime, format
 using HTTP
 using JSON
@@ -9,8 +10,8 @@ using ..Responses: CategoryResponse, ObservationsResponse, ReleaseResponse,
     Series, SeriesResponse, SingleSeriesResponse, TagsResponse, VintageDatesResponse
 using ..Validation
 
-public get, categories, observations, release, search, search_tags, search_related_tags,
-    tags, updates, vintagedates
+@compat public get, categories, observations, release, search, search_tags,
+    search_related_tags, tags, updates, vintagedates
 
 """
     get(series_id; <keyword arguments>)

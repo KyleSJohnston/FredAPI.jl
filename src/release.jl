@@ -1,5 +1,6 @@
 module releases
 
+using Compat
 using Dates: Date, DateTime
 using HTTP
 using JSON
@@ -8,7 +9,7 @@ using ..APIKey
 using ..Responses: ReleasesResponse, NamedReleaseDate, ReleaseDatesResponse
 using ..Validation
 
-public get_all, dates
+@compat public get_all, dates
 
 """
     get_all(; <keyword arguments>)
@@ -115,6 +116,7 @@ end  # module
 
 module release
 
+using Compat
 using Dates: Date, DateTime
 using HTTP
 using JSON
@@ -125,7 +127,7 @@ using ..Responses: Release, NamedReleaseDate, ReleaseDate,
     SimpleSourcesResponse, TableResponse, TagsResponse
 using ..Validation
 
-public get, dates, series, sources, tags, related_tags, tables
+@compat public get, dates, series, sources, tags, related_tags, tables
 
 """
     get(release_id; <keyword arguments>)

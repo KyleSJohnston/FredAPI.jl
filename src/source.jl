@@ -1,5 +1,6 @@
 module source
 
+using Compat
 using Dates: Date
 using HTTP
 using JSON
@@ -8,7 +9,7 @@ using ..APIKey
 using ..Responses: ReleasesResponse, SimpleSourcesResponse, Source, SourcesResponse
 using ..Validation
 
-public get, get_all, releases
+@compat public get, get_all, releases
 
 """
     get_all(; <keyword arguments>)

@@ -1,7 +1,9 @@
 "Global management of the required Fred API key"
 module APIKey
 
-public get, set
+using Compat
+
+@compat public get, set
 
 const API_KEY = Ref{String}("abcdefghijklmnopqrstuvwxyz123456")  # documentation default
 
