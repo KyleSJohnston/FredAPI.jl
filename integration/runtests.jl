@@ -166,7 +166,7 @@ end
     @test tr.count > tr.limit
     @test tr.limit == length(tr.tags)
 
-    tr = FredAPI.tags.related_tags(["weekly"])
+    tr = FredAPI.tags.related_tags(["monetary aggregates", "weekly"])
     @test tr isa TagsResponse
     @test tr.count < tr.limit
     @test tr.count == length(tr.tags)
