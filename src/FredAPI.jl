@@ -1,6 +1,7 @@
 module FredAPI
 
 include("api_key.jl")
+include("validation.jl")
 include("responses.jl")
 
 include("category.jl")

@@ -6,9 +6,17 @@ using JSON
 
 using ..APIKey
 using ..Responses: ReleasesResponse, NamedReleaseDate, ReleaseDatesResponse
+using ..Validation
 
 public get_all, dates
 
+"""
+    get_all(; <keyword arguments>)
+
+Get all releases
+
+See [`fred/releases`](https://fred.stlouisfed.org/docs/api/fred/releases.html).
+"""
 function get_all(;
     api_key::Union{Nothing,AbstractString}=nothing,
     realtime_start::Union{Nothing,Date}=nothing,
@@ -29,21 +37,35 @@ function get_all(;
         push!(query, "realtime_end" => string(realtime_end))
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "release_id",
+            "name",
+            "press_release",
+            "realtime_start",
+            "realtime_end",
+        ) || throw(ArgumentError("invalid order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     http_response = HTTP.get("https://api.stlouisfed.org/fred/releases"; query)
     return JSON.parse(http_response.body, ReleasesResponse)
 end
 
+"""
+    dates(; <keyword arguments>)
+
+Get release dates for all releases
+
+See [`fred/releases/dates`](https://fred.stlouisfed.org/docs/api/fred/releases_dates.html).
+"""
 function dates(;
     api_key::Union{Nothing,AbstractString}=nothing,
     realtime_start::Union{Nothing,Date}=nothing,
@@ -65,19 +87,24 @@ function dates(;
         push!(query, "realtime_end" => string(realtime_end))
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "release_date",
+            "release_id",
+            "release_name",
+        ) || throw(ArgumentError("invalid order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     if !isnothing(include_release_dates_with_no_data)
-        push!(query, "include_release_dates_with_no_data" => include_release_dates_with_no_data)
+        push!(query, "include_release_dates_with_no_data" => string(include_release_dates_with_no_data))
     end
     http_response = HTTP.get("https://api.stlouisfed.org/fred/releases/dates"; query)
     return JSON.parse(http_response.body, ReleaseDatesResponse{NamedReleaseDate})
@@ -96,9 +123,17 @@ using ..APIKey
 using ..Responses: Release, NamedReleaseDate, ReleaseDate,
     ReleaseDatesResponse, ReleaseResponse, SeriesResponse,
     SimpleSourcesResponse, TableResponse, TagsResponse
+using ..Validation
 
 public get, dates, series, sources, tags, related_tags, tables
 
+"""
+    get(release_id; <keyword arguments>)
+
+Gets a data release
+
+See [`fred/release`](https://fred.stlouisfed.org/docs/api/fred/release.html).
+"""
 function get(
     release_id::Integer;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -120,6 +155,13 @@ function get(
     return JSON.parse(http_response.body, ReleaseResponse)
 end
 
+"""
+    dates(release_id; <keyword arguments>)
+
+Gets release dates for a single data release
+
+See [`fred/release/dates`](https://fred.stlouisfed.org/docs/api/fred/release_dates.html).
+"""
 function dates(
     release_id::Integer;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -142,21 +184,28 @@ function dates(
         push!(query, "realtime_end" => string(realtime_end))
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit; ubound=10_000))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     if !isnothing(include_release_dates_with_no_data)
-        push!(query, "include_release_dates_with_no_data" => include_release_dates_with_no_data)
+        push!(query, "include_release_dates_with_no_data" => string(include_release_dates_with_no_data))
     end
     http_response = HTTP.get("https://api.stlouisfed.org/fred/release/dates"; query)
     return JSON.parse(http_response.body, ReleaseDatesResponse{ReleaseDate})
 end
 
+"""
+    series(release_id; <keyword arguments>)
+
+Get the series for a data release
+
+See [`fred/release/series`](https://fred.stlouisfed.org/docs/api/fred/release_series.html).
+"""
 function series(
     release_id::Integer;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -183,22 +232,36 @@ function series(
         push!(query, "realtime_end" => string(realtime_end))
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "series_id",
+            "title",
+            "units",
+            "frequency",
+            "seasonal_adjustment",
+            "realtime_start",
+            "realtime_end",
+            "last_updated",
+            "observation_start",
+            "observation_end",
+            "popularity",
+            "group_popularity",
+        ) || throw(ArgumentError("invalid order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     if !isnothing(filter_variable)
-        push!(query, "filter_variable" => filter_variable)  # TODO: validate
+        push!(query, "filter_variable" => validate_filter_variable(filter_variable))
     end
     if !isnothing(filter_value)
-        push!(query, "filter_value" => filter_value)
+        push!(query, "filter_value" => String(filter_value))
     end
     if length(tag_names) > 0
         push!(query, "tag_names" => join(tag_names, ';'))  # TODO: maybe validate
@@ -210,6 +273,13 @@ function series(
     return JSON.parse(http_response.body, SeriesResponse)
 end
 
+"""
+    sources(release_id; <keyword arguments>)
+
+Get the sources for a data release
+
+See [`fred/release/sources`](https://fred.stlouisfed.org/docs/api/fred/release_sources.html).
+"""
 function sources(
     release_id::Integer;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -231,7 +301,13 @@ function sources(
     return JSON.parse(http_response.body, SimpleSourcesResponse)
 end
 
+"""
+    tags(release_id; <keyword arguments>)
 
+Get the tags for a release
+
+See [`fred/release/tags`](https://fred.stlouisfed.org/docs/api/fred/release_tags.html).
+"""
 function tags(
     release_id::Integer;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -260,27 +336,41 @@ function tags(
         push!(query, "tag_names" => join(tag_names, ';'))  # TODO: maybe validate
     end
     if !isnothing(tag_group_id)
-        push!(query, "tag_group_id" => tag_group_id)  # TODO: validate
+        push!(query, "tag_group_id" => validate_tag_group_id(tag_group_id))
     end
     if !isnothing(search_text)
         push!(query, "search_text" => search_text)
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "series_count",
+            "popularity",
+            "created",
+            "name",
+            "group_id",
+        ) || throw(ArgumentError("invalid order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     http_response = HTTP.get("https://api.stlouisfed.org/fred/release/tags"; query)
     return JSON.parse(http_response.body, TagsResponse)
 end
 
+"""
+    related_tags(release_id, tag_names; <keyword arguments>)
+
+Get related tags for `tag_names` within release `release_id`
+
+See [`fred/release/related_tags`](https://fred.stlouisfed.org/docs/api/fred/release_related_tags.html).
+"""
 function related_tags(
     release_id::Integer,
     tag_names::AbstractVector{<:AbstractString};
@@ -311,27 +401,41 @@ function related_tags(
         push!(query, "exclude_tag_names" => join(exclude_tag_names, ';'))  # TODO: maybe validate
     end
     if !isnothing(tag_group_id)
-        push!(query, "tag_group_id" => tag_group_id)  # TODO: validate
+        push!(query, "tag_group_id" => validate_tag_group_id(tag_group_id))
     end
     if !isnothing(search_text)
         push!(query, "search_text" => search_text)
     end
     if !isnothing(limit)
-        push!(query, "limit" => limit)  # TODO: validate
+        push!(query, "limit" => validate_limit(limit))
     end
     if !isnothing(offset)
-        push!(query, "offset" => offset)  # TODO: validate
+        push!(query, "offset" => validate_offset(offset))
     end
     if !isnothing(order_by)
-        push!(query, "order_by" => order_by)  # TODO: validate
+        order_by in (
+            "series_count",
+            "popularity",
+            "created",
+            "name",
+            "group_id",
+        ) || throw(ArgumentError("invalid order_by $order_by"))
+        push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
-        push!(query, "sort_order" => sort_order)  # TODO: validate
+        push!(query, "sort_order" => validate_sort_order(sort_order))
     end
     http_response = HTTP.get("https://api.stlouisfed.org/fred/release/related_tags"; query)
     return JSON.parse(http_response.body, TagsResponse)
 end
 
+"""
+    tables(release_id; <keyword arguments>)
+
+Get release tables for release `release_id`
+
+See [`fred/release/tables`](https://fred.stlouisfed.org/docs/api/fred/release_tables.html).
+"""
 function tables(
     release_id::Integer;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -348,7 +452,7 @@ function tables(
         push!(query, "element_id" => element_id)
     end
     if !isnothing(include_observation_values)
-        push!(query, "include_observation_values" => include_observation_values)
+        push!(query, "include_observation_values" => string(include_observation_values))
     end
     if !isnothing(observation_date)
         push!(query, "observation_date" => observation_date)
