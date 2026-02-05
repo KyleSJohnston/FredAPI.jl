@@ -17,7 +17,7 @@ function get(
     realtime_start::Union{Nothing,Date}=nothing,
     realtime_end::Union{Nothing,Date}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => series_id,
@@ -38,7 +38,7 @@ function categories(
     realtime_start::Union{Nothing,Date}=nothing,
     realtime_end::Union{Nothing,Date}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => series_id,
@@ -76,7 +76,7 @@ function observations(
     output_type::Union{Nothing,OutputType}=nothing,
     vintage_dates::Vector{Date}=Date[],
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => string(series_id),
@@ -127,7 +127,7 @@ function release(
     realtime_start::Union{Nothing,Date}=nothing,
     realtime_end::Union{Nothing,Date}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => string(series_id),
@@ -157,7 +157,7 @@ function search(
     tag_names::AbstractVector{<:AbstractString}=String[],
     exclude_tag_names::AbstractVector{<:AbstractString}=String[],
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "search_text" => search_text,
@@ -212,7 +212,7 @@ function search_tags(
     order_by::Union{Nothing,AbstractString}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_search_text" => series_search_text,
@@ -262,7 +262,7 @@ function search_related_tags(
     order_by::Union{Nothing,AbstractString}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_search_text" => series_search_text,
@@ -307,7 +307,7 @@ function tags(
     order_by::Union{Nothing,AbstractString}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => series_id,
@@ -340,7 +340,7 @@ function updates(;
     start_time::Union{Nothing,DateTime}=nothing,
     end_time::Union{Nothing,DateTime}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
     ]
@@ -385,7 +385,7 @@ function vintagedates(
     offset::Union{Nothing,Integer}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "series_id" => series_id,

@@ -5,14 +5,16 @@ public get, set
 
 const API_KEY = Ref{String}("abcdefghijklmnopqrstuvwxyz123456")  # documentation default
 
+# From https://fred.stlouisfed.org/docs/api/fred/category_series.html#Parameters
+validate(api_key::AbstractString) = lowercase(ascii(api_key))
+
 """
     set(api_key)
 
 Sets the global api-key constant to `api_key`
 """
 function set(api_key::AbstractString)
-    API_KEY[] = String(api_key)
-    return nothing
+    API_KEY[] = validate(api_key)
 end
 
 """
@@ -27,7 +29,7 @@ This method serves as the default approach to obtaining an api_key in many
 functions.
 """
 get(::Nothing)::String = return API_KEY[]
-get(api_key::AbstractString)::String = String(api_key)
+get(api_key::AbstractString)::String = validate(api_key)
 get(api_key::String) = api_key
 
 end  # module

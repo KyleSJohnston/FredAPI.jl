@@ -18,7 +18,7 @@ function get_all(;
     order_by::Union{Nothing,AbstractString}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
     ]
@@ -50,7 +50,7 @@ function get(
     realtime_start::Union{Nothing,Date}=nothing,
     realtime_end::Union{Nothing,Date}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "source_id" => source_id,
@@ -75,7 +75,7 @@ function releases(
     order_by::Union{Nothing,AbstractString}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "source_id" => source_id,

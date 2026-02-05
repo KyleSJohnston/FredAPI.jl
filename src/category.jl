@@ -9,11 +9,18 @@ using ..Responses: Category, CategoryResponse, SeriesResponse, TagsResponse
 
 public get, children, related, series, tags, related_tags
 
+"""
+    get(category_id=0)
+
+Get the category for `category_id`, defaulting to the root category
+
+See [`fred/category`](https://fred.stlouisfed.org/docs/api/fred/category.html).
+"""
 function get(
-    category_id::Integer;
+    category_id::Integer=0;
     api_key::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "category_id" => category_id,
@@ -22,13 +29,20 @@ function get(
     return JSON.parse(http_response.body, CategoryResponse)
 end
 
+"""
+    children(category_id=0)
+
+Get the children categories for the `category_id` category
+
+See [`fred/category/children`](https://fred.stlouisfed.org/docs/api/fred/category_children.html).
+"""
 function children(
-    category_id::Integer;
+    category_id::Integer=0;
     api_key::Union{Nothing,AbstractString}=nothing,
     realtime_start::Union{Nothing,Date}=nothing,
     realtime_end::Union{Nothing,Date}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "category_id" => category_id,
@@ -43,13 +57,20 @@ function children(
     return JSON.parse(http_response.body, CategoryResponse)
 end
 
+"""
+    related(category_id)
+
+Get categories related to the `category_id` category
+
+See [`fred/category/related`](https://fred.stlouisfed.org/docs/api/fred/category_related.html).
+"""
 function related(
     category_id::Integer;
     api_key::Union{Nothing,AbstractString}=nothing,
     realtime_start::Union{Nothing,Date}=nothing,
     realtime_end::Union{Nothing,Date}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "category_id" => category_id,
@@ -65,6 +86,13 @@ function related(
 end
 
 
+"""
+    series(category_id)
+
+Get the series available in the `category_id` category
+
+See [`fred/category/series`](https://fred.stlouisfed.org/docs/api/fred/category_series.html).
+"""
 function series(
     category_id::Integer;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -79,7 +107,7 @@ function series(
     tag_names::AbstractVector{<:AbstractString}=String[],
     exclude_tag_names::AbstractVector{<:AbstractString}=String[],
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "category_id" => category_id,
@@ -105,6 +133,9 @@ function series(
     if !isnothing(filter_variable)
         push!(query, "filter_variable" => filter_variable)  # TODO: validate
     end
+    if !isnothing(filter_value)
+        push!(query, "filter_value" => filter_value)
+    end
     if length(tag_names) > 0
         push!(query, "tag_names" => join(tag_names, ';'))  # TODO: maybe validate
     end
@@ -128,7 +159,7 @@ function tags(
     order_by::Union{Nothing,AbstractString}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "category_id" => category_id,
@@ -178,7 +209,7 @@ function related_tags(
     order_by::Union{Nothing,AbstractString}=nothing,
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
-    query = [
+    query = Pair{String,Any}[
         "api_key" => APIKey.get(api_key),
         "file_type" => "json",
         "category_id" => category_id,
