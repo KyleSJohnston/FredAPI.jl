@@ -1,5 +1,8 @@
 module Responses
 
+# Custom pretty-printing
+# https://docs.julialang.org/en/v1/manual/types/#man-custom-pretty-printing
+
 using Dates: Date, @dateformat_str, DateTime
 using StructUtils
 using TimeZones
@@ -22,6 +25,26 @@ struct Category
     parent_id::Int
 end
 
+function Base.show(io::IO, category::Category)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        if get(io, :typeinfo, Nothing) == Category
+            print(io, category.name)
+        else
+            print(io, "Category(", category.id, ")")
+        end
+    else
+        # single-line print
+        print(
+            io,
+            "Category(",
+            category.id, ", ",
+            category.name, ", ",
+            category.parent_id, ")"
+        )
+    end
+end
+
 """
 
 # Returned By:
@@ -34,11 +57,53 @@ struct CategoryResponse
     categories::Vector{Category}
 end
 
+function Base.show(io::IO, cr::CategoryResponse)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        print(io, "CategoryResponse(<", length(cr.categories), " categories>]")
+    else
+        # single-line print
+        print(io, "CategoryResponse(")
+        print(IOContext(io, :compact => true), cr.categories)
+        print(io, ")")
+    end
+end
+
 struct Observation
     realtime_start::Date
     realtime_end::Date
     date::Date
     value::String
+end
+
+function Base.show(io::IO, observation::Observation)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        if get(io, :typeinfo, Nothing) == Observation
+            print(io, "(", observation.date, ", ", observation.value, ")")
+        else
+            print(io, "Observation(", observation.date, ", ", observation.value, ")")
+        end
+    else
+        # single-line print
+        print(
+            io,
+            "Observation(",
+            observation.realtime_start, ", ",
+            observation.realtime_end, ", ",
+            observation.date, ", ",
+            observation.value, ")"
+        )
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", observation::Observation)
+    # multi-line print
+    println(io, "Observation")
+    println(io, "  realtime_start: ", observation.realtime_start)
+    println(io, "    realtime_end: ", observation.realtime_end)
+    println(io, "            date: ", observation.date)
+    println(io, "           value: ", observation.value)
 end
 
 struct ObservationsResponse
@@ -57,6 +122,43 @@ struct ObservationsResponse
     observations::Vector{Observation}
 end
 
+function Base.show(io::IO, or::ObservationsResponse)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        print(io, "ObservationsResponse(<", length(or.observations), " observations>]")
+    else
+        # single-line print
+        print(
+            io,
+            "ObservationsResponse(",
+            or.realtime_start, ", ",
+            or.realtime_end, ", ",
+            or.observation_start, ", ",
+            or.observation_end, ", <",
+            length(or.observations), " observations>)"
+        )
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", or::ObservationsResponse)
+    # multi-line print
+    println(io, "ObservationsResponse")
+    println(io, "       realtime_start: ", or.realtime_start)
+    println(io, "         realtime_end: ", or.realtime_end)
+    println(io, "    observation_start: ", or.observation_start)
+    println(io, "      observation_end: ", or.observation_end)
+    println(io, "                units: ", or.units)
+    println(io, "          output_type: ", or.output_type)
+    println(io, "            file_type: ", or.file_type)
+    println(io, "             order_by: ", or.order_by)
+    println(io, "           sort_order: ", or.sort_order)
+    println(io, "                count: ", or.count)
+    println(io, "               offset: ", or.offset)
+    println(io, "                limit: ", or.limit)
+    print(io,   "         observations: ")
+    print(IOContext(io, :compact => true), or.observations)
+end
+
 struct Release
     id::Int
     realtime_start::Date
@@ -64,6 +166,40 @@ struct Release
     name::String
     press_release::Bool
     link::Union{Nothing,String}
+end
+
+function Base.show(io::IO, release::Release)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        if get(io, :typeinfo, Nothing) == Release
+            print(io, release.id)
+        else
+            print(io, "Release(", release.id, ")")
+        end
+    else
+        # single-line print
+        print(
+            io,
+            "Release(",
+            release.id, ", ",
+            release.realtime_start, ", ",
+            release.realtime_end, ", ",
+            release.name, ", ",
+            release.press_release, ",",
+            release.link, ")",
+        )
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", release::Release)
+    # multi-line print
+    println(io, "Release")
+    println(io, "              id: ", release.id)
+    println(io, "  realtime_start: ", release.realtime_start)
+    println(io, "    realtime_end: ", release.realtime_end)
+    println(io, "            name: ", release.name)
+    println(io, "   press_release: ", release.press_release)
+    println(io, "            link: ", release.link)
 end
 
 """
@@ -80,6 +216,41 @@ struct ReleasesResponse
     offset::Int
     limit::Int
     releases::Vector{Release}
+end
+
+function Base.show(io::IO, rr::ReleasesResponse)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        print(io, "ReleasesResponse(<", length(rr.releases), " releases>]")
+    else
+        # single-line print
+        print(
+            io,
+            "ReleasesResponse(",
+            rr.realtime_start, ", ",
+            rr.realtime_end, ", ",
+            rr.order_by, ", ",
+            rr.sort_order, ", ",
+            rr.count, ", ",
+            rr.offset, ", ",
+            rr.limit, ", <",
+            length(rr.releases), " observations>)"
+        )
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", rr::ReleasesResponse)
+    # multi-line print
+    println(io, "ReleasesResponse")
+    println(io, "  realtime_start: ", rr.realtime_start)
+    println(io, "    realtime_end: ", rr.realtime_end)
+    println(io, "        order_by: ", rr.order_by)
+    println(io, "      sort_order: ", rr.sort_order)
+    println(io, "           count: ", rr.count)
+    println(io, "          offset: ", rr.offset)
+    println(io, "           limit: ", rr.limit)
+    print(io,   "        releases: ")
+    print(IOContext(io, :compact => true), rr.releases)
 end
 
 struct ReleaseDate
@@ -104,12 +275,71 @@ struct ReleaseDatesResponse{T}
     release_dates::Vector{T}
 end
 
+function Base.show(io::IO, rdr::ReleaseDatesResponse)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        print(io, "ReleaseDatesResponse(<", length(rdr.release_dates), " release dates>]")
+    else
+        # single-line print
+        print(
+            io,
+            "ReleaseDatesResponse(",
+            rdr.realtime_start, ", ",
+            rdr.realtime_end, ", ",
+            rdr.order_by, ", ",
+            rdr.sort_order, ", ",
+            rdr.count, ", ",
+            rdr.offset, ", ",
+            rdr.limit, ", <",
+            length(rdr.release_dates), " release dates>)"
+        )
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", rdr::ReleaseDatesResponse)
+    # multi-line print
+    println(io, "ReleaseDatesResponse")
+    println(io, "  realtime_start: ", rdr.realtime_start)
+    println(io, "    realtime_end: ", rdr.realtime_end)
+    println(io, "        order_by: ", rdr.order_by)
+    println(io, "      sort_order: ", rdr.sort_order)
+    println(io, "           count: ", rdr.count)
+    println(io, "          offset: ", rdr.offset)
+    println(io, "           limit: ", rdr.limit)
+    print(io,   "   release_dates: ")
+    print(IOContext(io, :compact => true), rdr.release_dates)
+end
+
 struct ReleaseResponse
     realtime_start::Date
     realtime_end::Date
     releases::Vector{Release}
 end
 
+function Base.show(io::IO, rr::ReleaseResponse)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        print(io, "ReleaseResponse(<", length(rr.releases), " releases>]")
+    else
+        # single-line print
+        print(
+            io,
+            "ReleaseResponse(",
+            rr.realtime_start, ", ",
+            rr.realtime_end, ", <",
+            length(rr.releases), " releases>)"
+        )
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", rr::ReleaseResponse)
+    # multi-line print
+    println(io, "ReleaseResponse")
+    println(io, "  realtime_start: ", rr.realtime_start)
+    println(io, "    realtime_end: ", rr.realtime_end)
+    print(io,   "        releases: ")
+    print(IOContext(io, :compact => true), rr.releases)
+end
 
 @defaults struct Series
     id::String
@@ -130,6 +360,39 @@ end
     notes::Union{Nothing,String} = nothing
 end
 
+function Base.show(io::IO, series::Series)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        if get(io, :typeinfo, Nothing) == Series
+            print(io, series.id)
+        else
+            print(io, "Series[", series.id, "]")
+        end
+    else
+        # single-line print
+        print(io, "Series(", series.id, ", ", series.title, ", ", series.frequency, ", ", series.units, ")")
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", series::Series)
+    # multi-line print
+    println(io, "Series")
+    println(io, "                   id: ", series.id)
+    println(io, "       realtime_start: ", series.realtime_start)
+    println(io, "         realtime_end: ", series.realtime_end)
+    println(io, "                title: ", series.title)
+    println(io, "    observation_start: ", series.observation_start)
+    println(io, "      observation_end: ", series.observation_end)
+    println(io, "            frequency: ", series.frequency, " [", series.frequency_short, "]")
+    println(io, "                units: ", series.units, " [", series.units_short, "]")
+    println(io, "  seasonal_adjustment: ", series.seasonal_adjustment, " [", series.seasonal_adjustment_short, "]")
+    println(io, "         last_updated: ", series.last_updated)
+    println(io, "           popularity: ", series.popularity)
+    println(io, "     group_popularity: ", series.group_popularity)
+    println(io, "                notes:")
+    print(io, series.notes)
+end
+
 struct SeriesResponse
     realtime_start::Date
     realtime_end::Date
@@ -141,10 +404,65 @@ struct SeriesResponse
     seriess::Vector{Series}
 end
 
+
+function Base.show(io::IO, sr::SeriesResponse)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        print(io, "SeriesResponse(<", length(sr.seriess), " series>]")
+    else
+        # single-line print
+        print(
+            io,
+            "SeriesResponse(",
+            sr.realtime_start, ", ",
+            sr.realtime_end, ", ",
+            sr.order_by, ", ",
+            sr.sort_order, ", ",
+            sr.count, ", ",
+            sr.offset, ", ",
+            sr.limit, ", <",
+            length(sr.seriess), " series>)"
+        )
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", sr::SeriesResponse)
+    # multi-line print
+    println(io, "SeriesResponse")
+    println(io, "  realtime_start: ", sr.realtime_start)
+    println(io, "    realtime_end: ", sr.realtime_end)
+    println(io, "        order_by: ", sr.order_by)
+    println(io, "      sort_order: ", sr.sort_order)
+    println(io, "           count: ", sr.count)
+    println(io, "          offset: ", sr.offset)
+    println(io, "           limit: ", sr.limit)
+    print(io,   "         seriess: ")
+    print(IOContext(io, :compact => true), sr.seriess)
+end
+
 struct SingleSeriesResponse
     realtime_start::Date
     realtime_end::Date
     seriess::Vector{Series}
+end
+
+function Base.show(io::IO, ssr::SingleSeriesResponse)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        print(io, "SingleSeriesResponse(<", length(ssr.seriess), " series>]")
+    else
+        # single-line print
+        print(io, "SingleSeriesResponse(", ssr.realtime_start, ", ", ssr.realtime_end, ", <", length(ssr.seriess), " series>)")
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", ssr::SingleSeriesResponse)
+    # multi-line print
+    println(io, "SingleSeriesResponse")
+    println(io, "  realtime_start: ", ssr.realtime_start)
+    println(io, "    realtime_end: ", ssr.realtime_end)
+    print(io,   "         seriess: ")
+    print(IOContext(io, :compact => true), ssr.seriess)
 end
 
 @defaults struct Source
@@ -167,10 +485,65 @@ struct SourcesResponse
     sources::Vector{Source}
 end
 
+
+function Base.show(io::IO, sr::SourcesResponse)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        print(io, "SourcesResponse(<", length(sr.sources), " sources>]")
+    else
+        # single-line print
+        print(
+            io,
+            "SourcesResponse(",
+            sr.realtime_start, ", ",
+            sr.realtime_end, ", ",
+            sr.order_by, ", ",
+            sr.sort_order, ", ",
+            sr.count, ", ",
+            sr.offset, ", ",
+            sr.limit, ", <",
+            length(sr.sources), " sources>)"
+        )
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", sr::SourcesResponse)
+    # multi-line print
+    println(io, "SourcesResponse")
+    println(io, "  realtime_start: ", sr.realtime_start)
+    println(io, "    realtime_end: ", sr.realtime_end)
+    println(io, "        order_by: ", sr.order_by)
+    println(io, "      sort_order: ", sr.sort_order)
+    println(io, "           count: ", sr.count)
+    println(io, "          offset: ", sr.offset)
+    println(io, "           limit: ", sr.limit)
+    print(io,   "         sources: ")
+    print(IOContext(io, :compact => true), sr.sources)
+end
+
 struct SimpleSourcesResponse
     realtime_start::Date
     realtime_end::Date
     sources::Vector{Source}
+end
+
+function Base.show(io::IO, ssr::SimpleSourcesResponse)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        print(io, "SimpleSourcesResponse(<", length(ssr.sources), " sources>]")
+    else
+        # single-line print
+        print(io, "SimpleSourcesResponse(", ssr.realtime_start, ", ", ssr.realtime_end, ", <", length(ssr.sources), " sources>)")
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", ssr::SimpleSourcesResponse)
+    # multi-line print
+    println(io, "SimpleSourcesResponse")
+    println(io, "  realtime_start: ", ssr.realtime_start)
+    println(io, "    realtime_end: ", ssr.realtime_end)
+    print(io,   "         sources: ")
+    print(IOContext(io, :compact => true), ssr.sources)
 end
 
 struct TableElement
@@ -212,6 +585,41 @@ struct TagsResponse
     tags::Vector{Tag}
 end
 
+function Base.show(io::IO, tr::TagsResponse)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        print(io, "TagsResponse(<", length(tr.tags), " tags>]")
+    else
+        # single-line print
+        print(
+            io,
+            "TagsResponse(",
+            tr.realtime_start, ", ",
+            tr.realtime_end, ", ",
+            tr.order_by, ", ",
+            tr.sort_order, ", ",
+            tr.count, ", ",
+            tr.offset, ", ",
+            tr.limit, ", <",
+            length(tr.tags), " tags>)"
+        )
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", tr::TagsResponse)
+    # multi-line print
+    println(io, "TagsResponse")
+    println(io, "  realtime_start: ", tr.realtime_start)
+    println(io, "    realtime_end: ", tr.realtime_end)
+    println(io, "        order_by: ", tr.order_by)
+    println(io, "      sort_order: ", tr.sort_order)
+    println(io, "           count: ", tr.count)
+    println(io, "          offset: ", tr.offset)
+    println(io, "           limit: ", tr.limit)
+    print(io,   "            tags: ")
+    print(IOContext(io, :compact => true), tr.tags)
+end
+
 struct VintageDatesResponse
     realtime_start::Date
     realtime_end::Date
@@ -221,6 +629,42 @@ struct VintageDatesResponse
     offset::Int
     limit::Int
     vintage_dates::Vector{Date}
+end
+
+
+function Base.show(io::IO, vdr::VintageDatesResponse)
+    if get(io, :compact, false)::Bool
+        # compact single-line print
+        print(io, "VintageDatesResponse(<", length(vdr.vintage_dates), " dates>]")
+    else
+        # single-line print
+        print(
+            io,
+            "VintageDatesResponse(",
+            vdr.realtime_start, ", ",
+            vdr.realtime_end, ", ",
+            vdr.order_by, ", ",
+            vdr.sort_order, ", ",
+            vdr.count, ", ",
+            vdr.offset, ", ",
+            vdr.limit, ", <",
+            length(vdr.vintage_dates), " dates>)"
+        )
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/plain", vdr::VintageDatesResponse)
+    # multi-line print
+    println(io, "VintageDatesResponse")
+    println(io, "  realtime_start: ", vdr.realtime_start)
+    println(io, "    realtime_end: ", vdr.realtime_end)
+    println(io, "        order_by: ", vdr.order_by)
+    println(io, "      sort_order: ", vdr.sort_order)
+    println(io, "           count: ", vdr.count)
+    println(io, "          offset: ", vdr.offset)
+    println(io, "           limit: ", vdr.limit)
+    print(io,   "   vintage_dates: ")
+    print(IOContext(io, :compact => true), vdr.vintage_dates)
 end
 
 end  # module
