@@ -1,5 +1,9 @@
 # FredAPI.jl
 
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://kylesjohnston.github.io/FredAPI.jl/stable)
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://kylesjohnston.github.io/FredAPI.jl/dev)
+[![Build Status](https://github.com/kylesjohnston/FredAPI.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/kylesjohnston/FredAPI.jl/actions/workflows/CI.yml?query=branch%3Amain)
+
 A Julia interface to the [Federal Reserve Economic Data API](https://fred.stlouisfed.org/docs/api/fred/).
 This package is issued under the MIT License and is unaffiliated with the Federal Reserve Bank of St. Louis.
 
