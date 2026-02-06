@@ -16,6 +16,6 @@ You are responsible for requesting and using your own key.
 ```
 
 ```@autodocs
-Modules = [FredAPI, FredAPI.APIKey, FredAPI.category, FredAPI.release, FredAPI.releases, FredAPI.Responses, FredAPI.series, FredAPI.source, FredAPI.tags]
+Modules = [FredAPI, FredAPI.category, FredAPI.release, FredAPI.releases, FredAPI.Responses, FredAPI.series, FredAPI.source, FredAPI.tags]
 Private = false
 ```

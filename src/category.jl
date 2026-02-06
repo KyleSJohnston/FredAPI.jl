@@ -5,7 +5,7 @@ using Dates: Date, DateTime
 using HTTP
 using JSON
 
-using ..APIKey
+using ..FredAPI: get_api_key
 using ..Responses: Category, CategoryResponse, SeriesResponse, TagsResponse
 using ..Validation
 
@@ -23,7 +23,7 @@ function get(
     api_key::Union{Nothing,AbstractString}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "category_id" => category_id,
     ]
@@ -45,7 +45,7 @@ function children(
     realtime_end::Union{Nothing,Date}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "category_id" => category_id,
     ]
@@ -73,7 +73,7 @@ function related(
     realtime_end::Union{Nothing,Date}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "category_id" => category_id,
     ]
@@ -110,7 +110,7 @@ function series(
     exclude_tag_names::AbstractVector{<:AbstractString}=String[],
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "category_id" => category_id,
     ]
@@ -183,7 +183,7 @@ function tags(
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "category_id" => category_id,
     ]
@@ -247,7 +247,7 @@ function related_tags(
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "category_id" => category_id,
         "tag_names" => join(tag_names, ';'),

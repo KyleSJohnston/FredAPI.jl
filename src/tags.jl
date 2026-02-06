@@ -5,7 +5,7 @@ using Dates: Date
 using HTTP
 using JSON
 
-using ..APIKey
+using ..FredAPI: get_api_key
 using ..Responses: SeriesResponse, TagsResponse
 using ..Validation
 
@@ -31,7 +31,7 @@ function get_all(;
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
     ]
     if !isnothing(realtime_start)
@@ -93,7 +93,7 @@ function related_tags(
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "tag_names" => join(tag_names, ';'),
     ]
@@ -154,7 +154,7 @@ function series(
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "tag_names" => join(tag_names, ';'),
     ]
