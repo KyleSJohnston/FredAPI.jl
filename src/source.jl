@@ -5,7 +5,7 @@ using Dates: Date
 using HTTP
 using JSON
 
-using ..APIKey
+using ..FredAPI: get_api_key
 using ..Responses: ReleasesResponse, SimpleSourcesResponse, Source, SourcesResponse
 using ..Validation
 
@@ -28,7 +28,7 @@ function get_all(;
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
     ]
     if !isnothing(realtime_start)
@@ -73,7 +73,7 @@ function get(
     realtime_end::Union{Nothing,Date}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "source_id" => source_id,
     ]
@@ -105,7 +105,7 @@ function releases(
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "source_id" => source_id,
     ]

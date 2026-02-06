@@ -1,7 +1,7 @@
 using FredAPI
 using Test
 
-FredAPI.APIKey.set(PASS["fred/apikey"])
+FredAPI.set_api_key(PASS["fred/apikey"])
 
 @testset "Categories" begin
     cr = FredAPI.category.get(125)

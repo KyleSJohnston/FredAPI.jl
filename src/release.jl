@@ -5,7 +5,7 @@ using Dates: Date, DateTime
 using HTTP
 using JSON
 
-using ..APIKey
+using ..FredAPI: get_api_key
 using ..Responses: ReleasesResponse, NamedReleaseDate, ReleaseDatesResponse
 using ..Validation
 
@@ -28,7 +28,7 @@ function get_all(;
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
     ]
     if !isnothing(realtime_start)
@@ -78,7 +78,7 @@ function dates(;
     include_release_dates_with_no_data::Union{Nothing,Bool}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
     ]
     if !isnothing(realtime_start)
@@ -121,7 +121,7 @@ using Dates: Date, DateTime
 using HTTP
 using JSON
 
-using ..APIKey
+using ..FredAPI: get_api_key
 using ..Responses: Release, NamedReleaseDate, ReleaseDate,
     ReleaseDatesResponse, ReleaseResponse, SeriesResponse,
     SimpleSourcesResponse, TableResponse, TagsResponse
@@ -143,7 +143,7 @@ function get(
     realtime_end::Union{Nothing,Date}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "release_id" => release_id,
     ]
@@ -175,7 +175,7 @@ function dates(
     include_release_dates_with_no_data::Union{Nothing,Bool}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "release_id" => release_id,
     ]
@@ -223,7 +223,7 @@ function series(
     exclude_tag_names::AbstractVector{<:AbstractString}=String[],
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "release_id" => release_id,
     ]
@@ -289,7 +289,7 @@ function sources(
     realtime_end::Union{Nothing,Date}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "release_id" => release_id,
     ]
@@ -324,7 +324,7 @@ function tags(
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "release_id" => release_id,
     ]
@@ -388,7 +388,7 @@ function related_tags(
     sort_order::Union{Nothing,AbstractString}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "release_id" => release_id,
         "tag_names" => join(tag_names, ';'),
@@ -446,7 +446,7 @@ function tables(
     observation_date::Union{Nothing,Date}=nothing,
 )
     query = Pair{String,Any}[
-        "api_key" => APIKey.get(api_key),
+        "api_key" => get_api_key(api_key),
         "file_type" => "json",
         "release_id" => release_id,
     ]
