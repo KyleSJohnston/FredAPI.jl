@@ -7,6 +7,6 @@ makedocs(
     checkdocs = :public,
 )
 
-# deploydocs(
-#     repo = "github.com/KyleSJohnston/FredAPI.jl.git",
-# )
+deploydocs(
+    repo = "github.com/KyleSJohnston/FredAPI.jl.git",
+)
