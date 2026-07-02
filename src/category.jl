@@ -205,7 +205,7 @@ Get the tags for the `category_id` category
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 - `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
-- `search_text`: TODO
+- `search_text`: a search string to filter results
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
@@ -282,7 +282,7 @@ Get the related tags for one or more tags within a category
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 - `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
-- `search_text`: TODO
+- `search_text`: a search string to filter results
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.

@@ -102,13 +102,13 @@ Get the observations or data values for a data series
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
-- `observation_start`: TODO
-- `observation_end`: TODO
+- `observation_start`: the first date of the data period
+- `observation_end`: the last date of the data period
 - `units`: the data value transformation to apply; see [`FredAPI.Validation.validate_units`](@ref) for accepted values.
 - `frequency`: the frequency to aggregate observations to; see [`FredAPI.Validation.validate_frequency`](@ref) for accepted values.
 - `aggregation_method`: how observations are aggregated when `frequency` downsamples the series; see [`FredAPI.Validation.validate_aggregation_method`](@ref) for accepted values.
 - `output_type`: TODO
-- `vintage_dates`: TODO
+- `vintage_dates`: historical dates used to download data as it appeared at an earlier time
 
 See [`fred/series/observations`](https://fred.stlouisfed.org/docs/api/fred/series_observations.html).
 
@@ -316,7 +316,7 @@ Get the tags for a series search
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 - `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
-- `tag_search_text`: TODO
+- `tag_search_text`: a search string to filter results
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
@@ -393,7 +393,7 @@ Get the related tags for `tag_names` matching `series_search_text`
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 - `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
-- `tag_search_text`: TODO
+- `tag_search_text`: a search string to filter results
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
@@ -525,8 +525,8 @@ Get series updates within the last two weeks
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `filter_value`: restrict results to this series type; see [`FredAPI.Validation.validate_filter_value`](@ref) for accepted values.
-- `start_time`: TODO
-- `end_time`: TODO
+- `start_time`: a lower bound on the time of the results
+- `end_time`: an upper bound on the time of the results
 
 See [`fred/series/updates`](https://fred.stlouisfed.org/docs/api/fred/series_updates.html).
 

@@ -84,7 +84,7 @@ Get release dates for all releases
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: the field results are sorted by; one of `"release_date"`, `"release_id"`, or `"release_name"`.
 - `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
-- `include_release_dates_with_no_data`: TODO
+- `include_release_dates_with_no_data`: if true, results can include release dates with no data
 
 See [`fred/releases/dates`](https://fred.stlouisfed.org/docs/api/fred/releases_dates.html).
 
@@ -199,7 +199,7 @@ Gets release dates for a single data release
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
-- `include_release_dates_with_no_data`: TODO
+- `include_release_dates_with_no_data`: if true, results can include release dates with no data
 
 See [`fred/release/dates`](https://fred.stlouisfed.org/docs/api/fred/release_dates.html).
 
@@ -377,7 +377,7 @@ Get the tags for a release
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 - `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
-- `search_text`: TODO
+- `search_text`: a search string to filter results
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
@@ -454,7 +454,7 @@ Get related tags for `tag_names` within release `release_id`
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 - `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
-- `search_text`: TODO
+- `search_text`: a search string to filter results
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
@@ -529,9 +529,9 @@ Get release tables for release `release_id`
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `element_id`: TODO
-- `include_observation_values`: TODO
-- `observation_date`: TODO
+- `element_id`: the identifier for the release table
+- `include_observation_values`: if true, return the observations
+- `observation_date`: an observation date for the returned data
 
 See [`fred/release/tables`](https://fred.stlouisfed.org/docs/api/fred/release_tables.html).
 """
