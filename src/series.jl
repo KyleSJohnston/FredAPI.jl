@@ -18,6 +18,11 @@ using ..Validation
 
 Get a data series
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+
 See [`fred/series`](https://fred.stlouisfed.org/docs/api/fred/series.html).
 """
 function get(
@@ -45,6 +50,11 @@ end
     categories(series_id; <keyword arguments>)
 
 Get the categories for series `series_id`
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
 
 See [`fred/series/categories`](https://fred.stlouisfed.org/docs/api/fred/series_categories.html).
 """
@@ -80,6 +90,21 @@ end
     observations(series_id; <keyword arguments>)
 
 Get the observations or data values for a data series
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `sort_order`: TODO
+- `observation_start`: TODO
+- `observation_end`: TODO
+- `units`: TODO
+- `frequency`: TODO
+- `aggregation_method`: TODO
+- `output_type`: TODO
+- `vintage_dates`: TODO
 
 See [`fred/series/observations`](https://fred.stlouisfed.org/docs/api/fred/series_observations.html).
 """
@@ -149,6 +174,11 @@ end
 
 Get the release for the `series_id` series
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+
 See [`fred/series/release`](https://fred.stlouisfed.org/docs/api/fred/series_release.html).
 """
 function release(
@@ -176,6 +206,20 @@ end
     search(search_text; <keyword arguments>)
 
 Gets the series that match `search_text`
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `search_type`: TODO
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
+- `filter_variable`: TODO
+- `filter_value`: TODO
+- `tag_names`: TODO
+- `exclude_tag_names`: TODO
 
 See [`fred/series/search`](https://fred.stlouisfed.org/docs/api/fred/series_search.html).
 """
@@ -256,6 +300,18 @@ end
 
 Get the tags for a series search
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `tag_names`: TODO
+- `tag_group_id`: TODO
+- `tag_search_text`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
+
 See [`fred/series/search/tags`](https://fred.stlouisfed.org/docs/api/fred/series_search_tags.html).
 """
 function search_tags(
@@ -318,6 +374,18 @@ end
     search_related_tags(series_search_text, tag_names; <keyword arguments>)
 
 Get the related tags for `tag_names` matching `series_search_text`
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `exclude_tag_names`: TODO
+- `tag_group_id`: TODO
+- `tag_search_text`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
 
 See [`fred/series/search/related_tags`](https://fred.stlouisfed.org/docs/api/fred/series_search_related_tags.html).
 """
@@ -384,6 +452,13 @@ end
 
 Get tags for the `series_id` series
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
+
 See [`fred/series/tags`](https://fred.stlouisfed.org/docs/api/fred/series_tags.html).
 """
 function tags(
@@ -426,6 +501,16 @@ end
     updates(; <keyword arguments>)
 
 Get series updates within the last two weeks
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `filter_value`: TODO
+- `start_time`: TODO
+- `end_time`: TODO
 
 See [`fred/series/updates`](https://fred.stlouisfed.org/docs/api/fred/series_updates.html).
 """
@@ -479,6 +564,14 @@ end
     vintagedates(series_id; <keyword arguments>)
 
 Get historical dates for when the `series_id` series data values were released/revised
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `sort_order`: TODO
 
 See [`fred/series/vintagedates`](https://fred.stlouisfed.org/docs/api/fred/series_vintagedates.html).
 """

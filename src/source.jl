@@ -16,6 +16,15 @@ using ..Validation
 
 Get all data sources
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
+
 See [`fred/sources`](https://fred.stlouisfed.org/docs/api/fred/sources.html).
 """
 function get_all(;
@@ -64,6 +73,11 @@ end
 
 Get a data source
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+
 See [`fred/source`](https://fred.stlouisfed.org/docs/api/fred/source.html).
 """
 function get(
@@ -91,6 +105,15 @@ end
     releases(source_id; <keyword arguments>)
 
 Get the releases for the `source_id` source
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
 
 See [`fred/source/releases`](https://fred.stlouisfed.org/docs/api/fred/source_releases.html).
 """

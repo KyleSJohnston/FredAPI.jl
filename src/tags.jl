@@ -16,6 +16,18 @@ using ..Validation
 
 Get tags, optionally filtered
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `tag_names`: TODO
+- `tag_group_id`: TODO
+- `search_text`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
+
 See [`fred/tags`](https://fred.stlouisfed.org/docs/api/fred/tags.html).
 """
 function get_all(;
@@ -76,6 +88,18 @@ end
     related_tags(tag_names; <keyword arguments>)
 
 Get tags related to `tag_names`
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `exclude_tag_names`: TODO
+- `tag_group_id`: TODO
+- `search_text`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
 
 See [`fred/related_tags`](https://fred.stlouisfed.org/docs/api/fred/related_tags.html).
 """
@@ -139,6 +163,16 @@ end
     series(tag_names; <keyword arguments>)
 
 Get the series matching all of `tag_names`
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `exclude_tag_names`: TODO
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
 
 See [`fred/tags/series`](https://fred.stlouisfed.org/docs/api/fred/tags_series.html).
 """

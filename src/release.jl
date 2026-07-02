@@ -16,6 +16,15 @@ using ..Validation
 
 Get all releases
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
+
 See [`fred/releases`](https://fred.stlouisfed.org/docs/api/fred/releases.html).
 """
 function get_all(;
@@ -64,6 +73,16 @@ end
     dates(; <keyword arguments>)
 
 Get release dates for all releases
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
+- `include_release_dates_with_no_data`: TODO
 
 See [`fred/releases/dates`](https://fred.stlouisfed.org/docs/api/fred/releases_dates.html).
 """
@@ -134,6 +153,11 @@ using ..Validation
 
 Gets a data release
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+
 See [`fred/release`](https://fred.stlouisfed.org/docs/api/fred/release.html).
 """
 function get(
@@ -161,6 +185,15 @@ end
     dates(release_id; <keyword arguments>)
 
 Gets release dates for a single data release
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `sort_order`: TODO
+- `include_release_dates_with_no_data`: TODO
 
 See [`fred/release/dates`](https://fred.stlouisfed.org/docs/api/fred/release_dates.html).
 """
@@ -205,6 +238,19 @@ end
     series(release_id; <keyword arguments>)
 
 Get the series for a data release
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
+- `filter_variable`: TODO
+- `filter_value`: TODO
+- `tag_names`: TODO
+- `exclude_tag_names`: TODO
 
 See [`fred/release/series`](https://fred.stlouisfed.org/docs/api/fred/release_series.html).
 """
@@ -280,6 +326,11 @@ end
 
 Get the sources for a data release
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+
 See [`fred/release/sources`](https://fred.stlouisfed.org/docs/api/fred/release_sources.html).
 """
 function sources(
@@ -307,6 +358,18 @@ end
     tags(release_id; <keyword arguments>)
 
 Get the tags for a release
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `tag_names`: TODO
+- `tag_group_id`: TODO
+- `search_text`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
 
 See [`fred/release/tags`](https://fred.stlouisfed.org/docs/api/fred/release_tags.html).
 """
@@ -370,6 +433,18 @@ end
     related_tags(release_id, tag_names; <keyword arguments>)
 
 Get related tags for `tag_names` within release `release_id`
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `exclude_tag_names`: TODO
+- `tag_group_id`: TODO
+- `search_text`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
 
 See [`fred/release/related_tags`](https://fred.stlouisfed.org/docs/api/fred/release_related_tags.html).
 """
@@ -435,6 +510,12 @@ end
     tables(release_id; <keyword arguments>)
 
 Get release tables for release `release_id`
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `element_id`: TODO
+- `include_observation_values`: TODO
+- `observation_date`: TODO
 
 See [`fred/release/tables`](https://fred.stlouisfed.org/docs/api/fred/release_tables.html).
 """

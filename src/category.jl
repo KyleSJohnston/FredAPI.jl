@@ -16,6 +16,9 @@ using ..Validation
 
 Get the category for `category_id`, defaulting to the root category
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+
 See [`fred/category`](https://fred.stlouisfed.org/docs/api/fred/category.html).
 """
 function get(
@@ -35,6 +38,11 @@ end
     children(category_id=0)
 
 Get the children categories for the `category_id` category
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
 
 See [`fred/category/children`](https://fred.stlouisfed.org/docs/api/fred/category_children.html).
 """
@@ -64,6 +72,11 @@ end
 
 Get categories related to the `category_id` category
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+
 See [`fred/category/related`](https://fred.stlouisfed.org/docs/api/fred/category_related.html).
 """
 function related(
@@ -92,6 +105,19 @@ end
     series(category_id)
 
 Get the series available in the `category_id` category
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
+- `filter_variable`: TODO
+- `filter_value`: TODO
+- `tag_names`: TODO
+- `exclude_tag_names`: TODO
 
 See [`fred/category/series`](https://fred.stlouisfed.org/docs/api/fred/category_series.html).
 """
@@ -167,6 +193,18 @@ end
 
 Get the tags for the `category_id` category
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `tag_names`: TODO
+- `tag_group_id`: TODO
+- `search_text`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
+
 See [`fred/category/tags`](https://fred.stlouisfed.org/docs/api/fred/category_tags.html).
 """
 function tags(
@@ -229,6 +267,18 @@ end
     related_tags(category_id, tag_names; <keyword arguments>)
 
 Get the related tags for one or more tags within a category
+
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: TODO
+- `realtime_end`: TODO
+- `exclude_tag_names`: TODO
+- `tag_group_id`: TODO
+- `search_text`: TODO
+- `limit`: TODO
+- `offset`: TODO
+- `order_by`: TODO
+- `sort_order`: TODO
 
 See [`fred/category/related_tags`](https://fred.stlouisfed.org/docs/api/fred/category_related_tags.html).
 """
