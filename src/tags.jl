@@ -18,8 +18,8 @@ Get tags, optionally filtered
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `tag_names`: TODO
 - `tag_group_id`: TODO
 - `search_text`: TODO
@@ -29,6 +29,8 @@ Get tags, optionally filtered
 - `sort_order`: TODO
 
 See [`fred/tags`](https://fred.stlouisfed.org/docs/api/fred/tags.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function get_all(;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -91,8 +93,8 @@ Get tags related to `tag_names`
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `exclude_tag_names`: TODO
 - `tag_group_id`: TODO
 - `search_text`: TODO
@@ -102,6 +104,8 @@ Get tags related to `tag_names`
 - `sort_order`: TODO
 
 See [`fred/related_tags`](https://fred.stlouisfed.org/docs/api/fred/related_tags.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function related_tags(
     tag_names::AbstractVector{<:AbstractString}=String[];
@@ -167,14 +171,16 @@ Get the series matching all of `tag_names`
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `exclude_tag_names`: TODO
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: TODO
 - `offset`: TODO
 - `order_by`: TODO
 - `sort_order`: TODO
 
 See [`fred/tags/series`](https://fred.stlouisfed.org/docs/api/fred/tags_series.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function series(
     tag_names::AbstractVector{<:AbstractString}=String[];

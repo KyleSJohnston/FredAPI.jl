@@ -41,10 +41,12 @@ Get the children categories for the `category_id` category
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 
 See [`fred/category/children`](https://fred.stlouisfed.org/docs/api/fred/category_children.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function children(
     category_id::Integer=0;
@@ -74,10 +76,12 @@ Get categories related to the `category_id` category
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 
 See [`fred/category/related`](https://fred.stlouisfed.org/docs/api/fred/category_related.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function related(
     category_id::Integer;
@@ -108,8 +112,8 @@ Get the series available in the `category_id` category
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: TODO
 - `offset`: TODO
 - `order_by`: TODO
@@ -120,6 +124,8 @@ Get the series available in the `category_id` category
 - `exclude_tag_names`: TODO
 
 See [`fred/category/series`](https://fred.stlouisfed.org/docs/api/fred/category_series.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function series(
     category_id::Integer;
@@ -195,8 +201,8 @@ Get the tags for the `category_id` category
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `tag_names`: TODO
 - `tag_group_id`: TODO
 - `search_text`: TODO
@@ -206,6 +212,8 @@ Get the tags for the `category_id` category
 - `sort_order`: TODO
 
 See [`fred/category/tags`](https://fred.stlouisfed.org/docs/api/fred/category_tags.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function tags(
     category_id::Integer;
@@ -270,8 +278,8 @@ Get the related tags for one or more tags within a category
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `exclude_tag_names`: TODO
 - `tag_group_id`: TODO
 - `search_text`: TODO
@@ -281,6 +289,8 @@ Get the related tags for one or more tags within a category
 - `sort_order`: TODO
 
 See [`fred/category/related_tags`](https://fred.stlouisfed.org/docs/api/fred/category_related_tags.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function related_tags(
     category_id::Integer,

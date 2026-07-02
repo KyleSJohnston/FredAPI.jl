@@ -18,14 +18,16 @@ Get all releases
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: TODO
 - `offset`: TODO
 - `order_by`: TODO
 - `sort_order`: TODO
 
 See [`fred/releases`](https://fred.stlouisfed.org/docs/api/fred/releases.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function get_all(;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -76,8 +78,8 @@ Get release dates for all releases
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: TODO
 - `offset`: TODO
 - `order_by`: TODO
@@ -85,6 +87,8 @@ Get release dates for all releases
 - `include_release_dates_with_no_data`: TODO
 
 See [`fred/releases/dates`](https://fred.stlouisfed.org/docs/api/fred/releases_dates.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function dates(;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -155,10 +159,12 @@ Gets a data release
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 
 See [`fred/release`](https://fred.stlouisfed.org/docs/api/fred/release.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function get(
     release_id::Integer;
@@ -188,14 +194,16 @@ Gets release dates for a single data release
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: TODO
 - `offset`: TODO
 - `sort_order`: TODO
 - `include_release_dates_with_no_data`: TODO
 
 See [`fred/release/dates`](https://fred.stlouisfed.org/docs/api/fred/release_dates.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function dates(
     release_id::Integer;
@@ -241,8 +249,8 @@ Get the series for a data release
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: TODO
 - `offset`: TODO
 - `order_by`: TODO
@@ -253,6 +261,8 @@ Get the series for a data release
 - `exclude_tag_names`: TODO
 
 See [`fred/release/series`](https://fred.stlouisfed.org/docs/api/fred/release_series.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function series(
     release_id::Integer;
@@ -328,10 +338,12 @@ Get the sources for a data release
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 
 See [`fred/release/sources`](https://fred.stlouisfed.org/docs/api/fred/release_sources.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function sources(
     release_id::Integer;
@@ -361,8 +373,8 @@ Get the tags for a release
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `tag_names`: TODO
 - `tag_group_id`: TODO
 - `search_text`: TODO
@@ -372,6 +384,8 @@ Get the tags for a release
 - `sort_order`: TODO
 
 See [`fred/release/tags`](https://fred.stlouisfed.org/docs/api/fred/release_tags.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function tags(
     release_id::Integer;
@@ -436,8 +450,8 @@ Get related tags for `tag_names` within release `release_id`
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `exclude_tag_names`: TODO
 - `tag_group_id`: TODO
 - `search_text`: TODO
@@ -447,6 +461,8 @@ Get related tags for `tag_names` within release `release_id`
 - `sort_order`: TODO
 
 See [`fred/release/related_tags`](https://fred.stlouisfed.org/docs/api/fred/release_related_tags.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function related_tags(
     release_id::Integer,

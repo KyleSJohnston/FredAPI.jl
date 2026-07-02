@@ -18,14 +18,16 @@ Get all data sources
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: TODO
 - `offset`: TODO
 - `order_by`: TODO
 - `sort_order`: TODO
 
 See [`fred/sources`](https://fred.stlouisfed.org/docs/api/fred/sources.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function get_all(;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -75,10 +77,12 @@ Get a data source
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 
 See [`fred/source`](https://fred.stlouisfed.org/docs/api/fred/source.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function get(
     source_id::Integer;
@@ -108,14 +112,16 @@ Get the releases for the `source_id` source
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `realtime_start`: TODO
-- `realtime_end`: TODO
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: TODO
 - `offset`: TODO
 - `order_by`: TODO
 - `sort_order`: TODO
 
 See [`fred/source/releases`](https://fred.stlouisfed.org/docs/api/fred/source_releases.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function releases(
     source_id::Integer;
