@@ -16,6 +16,9 @@ using ..Validation
 
 Get the category for `category_id`, defaulting to the root category
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+
 See [`fred/category`](https://fred.stlouisfed.org/docs/api/fred/category.html).
 """
 function get(
@@ -36,7 +39,14 @@ end
 
 Get the children categories for the `category_id` category
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+
 See [`fred/category/children`](https://fred.stlouisfed.org/docs/api/fred/category_children.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function children(
     category_id::Integer=0;
@@ -64,7 +74,14 @@ end
 
 Get categories related to the `category_id` category
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+
 See [`fred/category/related`](https://fred.stlouisfed.org/docs/api/fred/category_related.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function related(
     category_id::Integer;
@@ -93,7 +110,22 @@ end
 
 Get the series available in the `category_id` category
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
+- `order_by`: the field results are sorted by; one of `"series_id"`, `"title"`, `"units"`, `"frequency"`, `"seasonal_adjustment"`, `"realtime_start"`, `"realtime_end"`, `"last_updated"`, `"observation_start"`, `"observation_end"`, `"popularity"`, or `"group_popularity"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
+- `filter_variable`: the attribute that `filter_value` filters results by; see [`FredAPI.Validation.validate_filter_variable`](@ref) for accepted values.
+- `filter_value`: the value to filter on for the attribute named by `filter_variable`; see [`FredAPI.Validation.validate_filter_variable`](@ref) for the attributes `filter_variable` may name.
+- `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
+- `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
+
 See [`fred/category/series`](https://fred.stlouisfed.org/docs/api/fred/category_series.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function series(
     category_id::Integer;
@@ -167,7 +199,21 @@ end
 
 Get the tags for the `category_id` category
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+- `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
+- `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
+- `search_text`: a search string to filter results
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
+- `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
+
 See [`fred/category/tags`](https://fred.stlouisfed.org/docs/api/fred/category_tags.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function tags(
     category_id::Integer;
@@ -215,7 +261,7 @@ function tags(
             "created",
             "name",
             "group_id",
-        ) || throw(ArgumentError("invalide order_by $order_by"))
+        ) || throw(ArgumentError("invalid order_by $order_by"))
         push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
@@ -230,7 +276,21 @@ end
 
 Get the related tags for one or more tags within a category
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+- `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
+- `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
+- `search_text`: a search string to filter results
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
+- `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
+
 See [`fred/category/related_tags`](https://fred.stlouisfed.org/docs/api/fred/category_related_tags.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function related_tags(
     category_id::Integer,

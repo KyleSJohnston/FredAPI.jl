@@ -18,7 +18,14 @@ using ..Validation
 
 Get a data series
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+
 See [`fred/series`](https://fred.stlouisfed.org/docs/api/fred/series.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function get(
     series_id::AbstractString;
@@ -46,7 +53,14 @@ end
 
 Get the categories for series `series_id`
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+
 See [`fred/series/categories`](https://fred.stlouisfed.org/docs/api/fred/series_categories.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function categories(
     series_id::AbstractString;
@@ -69,6 +83,19 @@ function categories(
     return JSON.parse(http_response.body, CategoryResponse)
 end
 
+export OutputType, REAL_TIME, VINTAGE_ALL, VINTAGE_NEW_REVISED, INITIAL
+
+"""
+    OutputType
+
+Selects which representation of a series' observation values [`observations`](@ref) returns.
+
+# Values
+- `REAL_TIME`: observations by real-time period (the default).
+- `VINTAGE_ALL`: observations by vintage date, all observations.
+- `VINTAGE_NEW_REVISED`: observations by vintage date, new and revised observations only.
+- `INITIAL`: observations, initial release only.
+"""
 @enum OutputType begin
     REAL_TIME=1
     VINTAGE_ALL=2
@@ -81,7 +108,24 @@ end
 
 Get the observations or data values for a data series
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
+- `observation_start`: the first date of the data period
+- `observation_end`: the last date of the data period
+- `units`: the data value transformation to apply; see [`FredAPI.Validation.validate_units`](@ref) for accepted values.
+- `frequency`: the frequency to aggregate observations to; see [`FredAPI.Validation.validate_frequency`](@ref) for accepted values.
+- `aggregation_method`: how observations are aggregated when `frequency` downsamples the series; see [`FredAPI.Validation.validate_aggregation_method`](@ref) for accepted values.
+- `output_type`: which representation of the observation values to return; see [`OutputType`](@ref).
+- `vintage_dates`: historical dates used to download data as it appeared at an earlier time
+
 See [`fred/series/observations`](https://fred.stlouisfed.org/docs/api/fred/series_observations.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function observations(
     series_id::AbstractString;
@@ -149,7 +193,14 @@ end
 
 Get the release for the `series_id` series
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+
 See [`fred/series/release`](https://fred.stlouisfed.org/docs/api/fred/series_release.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function release(
     series_id::AbstractString;
@@ -177,7 +228,23 @@ end
 
 Gets the series that match `search_text`
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `search_type`: how `search_text` is matched against series; see [`FredAPI.Validation.validate_search_type`](@ref) for accepted values.
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
+- `order_by`: the field results are sorted by; one of `"search_rank"`, `"series_id"`, `"title"`, `"units"`, `"frequency"`, `"seasonal_adjustment"`, `"realtime_start"`, `"realtime_end"`, `"last_updated"`, `"observation_start"`, `"observation_end"`, `"popularity"`, or `"group_popularity"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
+- `filter_variable`: the attribute that `filter_value` filters results by; see [`FredAPI.Validation.validate_filter_variable`](@ref) for accepted values.
+- `filter_value`: the value to filter on for the attribute named by `filter_variable`; see [`FredAPI.Validation.validate_filter_variable`](@ref) for the attributes `filter_variable` may name.
+- `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
+- `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
+
 See [`fred/series/search`](https://fred.stlouisfed.org/docs/api/fred/series_search.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function search(
     search_text::AbstractString;
@@ -256,7 +323,21 @@ end
 
 Get the tags for a series search
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+- `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
+- `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
+- `tag_search_text`: a search string to filter results
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
+- `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
+
 See [`fred/series/search/tags`](https://fred.stlouisfed.org/docs/api/fred/series_search_tags.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function search_tags(
     series_search_text::AbstractString;
@@ -319,7 +400,21 @@ end
 
 Get the related tags for `tag_names` matching `series_search_text`
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+- `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
+- `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
+- `tag_search_text`: a search string to filter results
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
+- `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
+
 See [`fred/series/search/related_tags`](https://fred.stlouisfed.org/docs/api/fred/series_search_related_tags.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function search_related_tags(
     series_search_text::AbstractString,
@@ -384,7 +479,16 @@ end
 
 Get tags for the `series_id` series
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+- `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
+
 See [`fred/series/tags`](https://fred.stlouisfed.org/docs/api/fred/series_tags.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function tags(
     series_id::AbstractString;
@@ -427,7 +531,19 @@ end
 
 Get series updates within the last two weeks
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
+- `filter_value`: restrict results to this series type; see [`FredAPI.Validation.validate_filter_value`](@ref) for accepted values.
+- `start_time`: a lower bound on the time of the results
+- `end_time`: an upper bound on the time of the results
+
 See [`fred/series/updates`](https://fred.stlouisfed.org/docs/api/fred/series_updates.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function updates(;
     api_key::Union{Nothing,AbstractString}=nothing,
@@ -480,7 +596,17 @@ end
 
 Get historical dates for when the `series_id` series data values were released/revised
 
+# Arguments
+- `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
+- `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
+- `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
+
 See [`fred/series/vintagedates`](https://fred.stlouisfed.org/docs/api/fred/series_vintagedates.html).
+
+See [Real-Time Periods](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html).
 """
 function vintagedates(
     series_id::AbstractString;

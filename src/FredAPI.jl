@@ -25,7 +25,7 @@ end
 Obtains an `api_key` for use in HTTP requests
 
 - If `api_key` is an instance of `AbstractString`, a `String` representation of `api_key` is returned.
-- If `api_key` is `nothing`, the global API key is returned. (See `set(api_key)`(@ref))
+- If `api_key` is `nothing`, the global API key is returned. (See [`set_api_key`](@ref))
 
 This method serves as the default approach to obtaining an api_key in many
 functions.
@@ -56,6 +56,10 @@ export Source, SimpleSourcesResponse, SourcesResponse
 export TableElement, TableResponse
 export Tag, TagsResponse
 export VintageDatesResponse
+
+# Export series.OutputType and its values for use as series.observations arguments
+using .series: OutputType, REAL_TIME, VINTAGE_ALL, VINTAGE_NEW_REVISED, INITIAL
+export OutputType, REAL_TIME, VINTAGE_ALL, VINTAGE_NEW_REVISED, INITIAL
 
 # Make fully-qualified endpoint functions available
 @compat public category, release, releases, series, source, tags

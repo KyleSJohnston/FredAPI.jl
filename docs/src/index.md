@@ -19,3 +19,21 @@ You are responsible for requesting and using your own key.
 Modules = [FredAPI, FredAPI.category, FredAPI.release, FredAPI.releases, FredAPI.Responses, FredAPI.series, FredAPI.source, FredAPI.tags]
 Private = false
 ```
+
+## Enumerated Values
+
+Several keyword arguments across the interface above accept only a fixed set of string
+values. `FredAPI.Validation` is an internal module (not part of the public API) that
+enforces those sets; its functions are documented here, individually rather than through
+`@autodocs`, purely as a reference for what each accepted value means.
+
+```@docs
+FredAPI.Validation.validate_sort_order
+FredAPI.Validation.validate_filter_variable
+FredAPI.Validation.validate_tag_group_id
+FredAPI.Validation.validate_units
+FredAPI.Validation.validate_frequency
+FredAPI.Validation.validate_aggregation_method
+FredAPI.Validation.validate_search_type
+FredAPI.Validation.validate_filter_value
+```
