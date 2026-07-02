@@ -83,6 +83,19 @@ function categories(
     return JSON.parse(http_response.body, CategoryResponse)
 end
 
+export OutputType, REAL_TIME, VINTAGE_ALL, VINTAGE_NEW_REVISED, INITIAL
+
+"""
+    OutputType
+
+Selects which representation of a series' observation values [`observations`](@ref) returns.
+
+# Values
+- `REAL_TIME`: observations by real-time period (the default).
+- `VINTAGE_ALL`: observations by vintage date, all observations.
+- `VINTAGE_NEW_REVISED`: observations by vintage date, new and revised observations only.
+- `INITIAL`: observations, initial release only.
+"""
 @enum OutputType begin
     REAL_TIME=1
     VINTAGE_ALL=2
@@ -107,7 +120,7 @@ Get the observations or data values for a data series
 - `units`: the data value transformation to apply; see [`FredAPI.Validation.validate_units`](@ref) for accepted values.
 - `frequency`: the frequency to aggregate observations to; see [`FredAPI.Validation.validate_frequency`](@ref) for accepted values.
 - `aggregation_method`: how observations are aggregated when `frequency` downsamples the series; see [`FredAPI.Validation.validate_aggregation_method`](@ref) for accepted values.
-- `output_type`: TODO
+- `output_type`: which representation of the observation values to return; see [`OutputType`](@ref).
 - `vintage_dates`: historical dates used to download data as it appeared at an earlier time
 
 See [`fred/series/observations`](https://fred.stlouisfed.org/docs/api/fred/series_observations.html).

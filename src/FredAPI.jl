@@ -57,6 +57,10 @@ export TableElement, TableResponse
 export Tag, TagsResponse
 export VintageDatesResponse
 
+# Export series.OutputType and its values for use as series.observations arguments
+using .series: OutputType, REAL_TIME, VINTAGE_ALL, VINTAGE_NEW_REVISED, INITIAL
+export OutputType, REAL_TIME, VINTAGE_ALL, VINTAGE_NEW_REVISED, INITIAL
+
 # Make fully-qualified endpoint functions available
 @compat public category, release, releases, series, source, tags
 
