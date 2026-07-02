@@ -120,8 +120,8 @@ Get the series available in the `category_id` category
 - `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 - `filter_variable`: TODO
 - `filter_value`: TODO
-- `tag_names`: TODO
-- `exclude_tag_names`: TODO
+- `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
+- `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 
 See [`fred/category/series`](https://fred.stlouisfed.org/docs/api/fred/category_series.html).
 
@@ -203,7 +203,7 @@ Get the tags for the `category_id` category
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `tag_names`: TODO
+- `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 - `tag_group_id`: TODO
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
@@ -280,7 +280,7 @@ Get the related tags for one or more tags within a category
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `exclude_tag_names`: TODO
+- `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 - `tag_group_id`: TODO
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.

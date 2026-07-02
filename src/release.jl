@@ -257,8 +257,8 @@ Get the series for a data release
 - `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 - `filter_variable`: TODO
 - `filter_value`: TODO
-- `tag_names`: TODO
-- `exclude_tag_names`: TODO
+- `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
+- `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 
 See [`fred/release/series`](https://fred.stlouisfed.org/docs/api/fred/release_series.html).
 
@@ -375,7 +375,7 @@ Get the tags for a release
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `tag_names`: TODO
+- `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 - `tag_group_id`: TODO
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
@@ -452,7 +452,7 @@ Get related tags for `tag_names` within release `release_id`
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `exclude_tag_names`: TODO
+- `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 - `tag_group_id`: TODO
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
