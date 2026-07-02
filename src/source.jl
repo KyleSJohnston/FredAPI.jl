@@ -20,8 +20,8 @@ Get all data sources
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 
@@ -114,8 +114,8 @@ Get the releases for the `source_id` source
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 

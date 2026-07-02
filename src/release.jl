@@ -20,8 +20,8 @@ Get all releases
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 
@@ -80,8 +80,8 @@ Get release dates for all releases
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 - `include_release_dates_with_no_data`: TODO
@@ -196,8 +196,8 @@ Gets release dates for a single data release
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `sort_order`: TODO
 - `include_release_dates_with_no_data`: TODO
 
@@ -251,8 +251,8 @@ Get the series for a data release
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 - `filter_variable`: TODO
@@ -378,8 +378,8 @@ Get the tags for a release
 - `tag_names`: TODO
 - `tag_group_id`: TODO
 - `search_text`: TODO
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 
@@ -455,8 +455,8 @@ Get related tags for `tag_names` within release `release_id`
 - `exclude_tag_names`: TODO
 - `tag_group_id`: TODO
 - `search_text`: TODO
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 

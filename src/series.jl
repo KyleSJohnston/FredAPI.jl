@@ -99,8 +99,8 @@ Get the observations or data values for a data series
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `sort_order`: TODO
 - `observation_start`: TODO
 - `observation_end`: TODO
@@ -220,8 +220,8 @@ Gets the series that match `search_text`
 - `search_type`: TODO
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 - `filter_variable`: TODO
@@ -317,8 +317,8 @@ Get the tags for a series search
 - `tag_names`: TODO
 - `tag_group_id`: TODO
 - `tag_search_text`: TODO
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 
@@ -394,8 +394,8 @@ Get the related tags for `tag_names` matching `series_search_text`
 - `exclude_tag_names`: TODO
 - `tag_group_id`: TODO
 - `tag_search_text`: TODO
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 
@@ -522,8 +522,8 @@ Get series updates within the last two weeks
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `filter_value`: TODO
 - `start_time`: TODO
 - `end_time`: TODO
@@ -587,8 +587,8 @@ Get historical dates for when the `series_id` series data values were released/r
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `sort_order`: TODO
 
 See [`fred/series/vintagedates`](https://fred.stlouisfed.org/docs/api/fred/series_vintagedates.html).

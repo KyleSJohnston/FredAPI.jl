@@ -23,8 +23,8 @@ Get tags, optionally filtered
 - `tag_names`: TODO
 - `tag_group_id`: TODO
 - `search_text`: TODO
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 
@@ -98,8 +98,8 @@ Get tags related to `tag_names`
 - `exclude_tag_names`: TODO
 - `tag_group_id`: TODO
 - `search_text`: TODO
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 
@@ -173,8 +173,8 @@ Get the series matching all of `tag_names`
 - `exclude_tag_names`: TODO
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
-- `limit`: TODO
-- `offset`: TODO
+- `limit`: the upper bound on the number of results to return.
+- `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: TODO
 - `sort_order`: TODO
 
