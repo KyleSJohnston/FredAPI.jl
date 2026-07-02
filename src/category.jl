@@ -261,7 +261,7 @@ function tags(
             "created",
             "name",
             "group_id",
-        ) || throw(ArgumentError("invalide order_by $order_by"))
+        ) || throw(ArgumentError("invalid order_by $order_by"))
         push!(query, "order_by" => String(order_by))
     end
     if !isnothing(sort_order)
