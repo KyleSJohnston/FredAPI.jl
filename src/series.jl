@@ -104,9 +104,9 @@ Get the observations or data values for a data series
 - `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 - `observation_start`: TODO
 - `observation_end`: TODO
-- `units`: TODO
-- `frequency`: TODO
-- `aggregation_method`: TODO
+- `units`: the data value transformation to apply; see [`FredAPI.Validation.validate_units`](@ref) for accepted values.
+- `frequency`: the frequency to aggregate observations to; see [`FredAPI.Validation.validate_frequency`](@ref) for accepted values.
+- `aggregation_method`: how observations are aggregated when `frequency` downsamples the series; see [`FredAPI.Validation.validate_aggregation_method`](@ref) for accepted values.
 - `output_type`: TODO
 - `vintage_dates`: TODO
 
@@ -217,15 +217,15 @@ Gets the series that match `search_text`
 
 # Arguments
 - `api_key`: overrides the globally configured API key for this request; see [`get_api_key`](@ref).
-- `search_type`: TODO
+- `search_type`: how `search_text` is matched against series; see [`FredAPI.Validation.validate_search_type`](@ref) for accepted values.
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
 - `order_by`: the field results are sorted by; one of `"search_rank"`, `"series_id"`, `"title"`, `"units"`, `"frequency"`, `"seasonal_adjustment"`, `"realtime_start"`, `"realtime_end"`, `"last_updated"`, `"observation_start"`, `"observation_end"`, `"popularity"`, or `"group_popularity"`.
 - `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
-- `filter_variable`: TODO
-- `filter_value`: TODO
+- `filter_variable`: the attribute that `filter_value` filters results by; see [`FredAPI.Validation.validate_filter_variable`](@ref) for accepted values.
+- `filter_value`: the value to filter on for the attribute named by `filter_variable`; see [`FredAPI.Validation.validate_filter_variable`](@ref) for the attributes `filter_variable` may name.
 - `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 - `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
 
@@ -315,7 +315,7 @@ Get the tags for a series search
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `tag_names`: results must match all of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
-- `tag_group_id`: TODO
+- `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
 - `tag_search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
@@ -392,7 +392,7 @@ Get the related tags for `tag_names` matching `series_search_text`
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
-- `tag_group_id`: TODO
+- `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
 - `tag_search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
@@ -524,7 +524,7 @@ Get series updates within the last two weeks
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `filter_value`: TODO
+- `filter_value`: restrict results to this series type; see [`FredAPI.Validation.validate_filter_value`](@ref) for accepted values.
 - `start_time`: TODO
 - `end_time`: TODO
 

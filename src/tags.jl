@@ -21,7 +21,7 @@ Get tags, optionally filtered
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `tag_names`: results must match all of these tags; call this function with no arguments to see all accepted tag values.
-- `tag_group_id`: TODO
+- `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
@@ -96,7 +96,7 @@ Get tags related to `tag_names`
 - `realtime_start`: the first date of the real-time period over which the data is valid; defaults to today.
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `exclude_tag_names`: results must match none of these tags; see [`FredAPI.tags.get_all`](@ref) for accepted tag values.
-- `tag_group_id`: TODO
+- `tag_group_id`: results must belong to this tag group; see [`FredAPI.Validation.validate_tag_group_id`](@ref) for accepted values.
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
