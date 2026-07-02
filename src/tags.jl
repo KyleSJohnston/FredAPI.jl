@@ -25,8 +25,8 @@ Get tags, optionally filtered
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `order_by`: TODO
-- `sort_order`: TODO
+- `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 
 See [`fred/tags`](https://fred.stlouisfed.org/docs/api/fred/tags.html).
 
@@ -100,8 +100,8 @@ Get tags related to `tag_names`
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `order_by`: TODO
-- `sort_order`: TODO
+- `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 
 See [`fred/related_tags`](https://fred.stlouisfed.org/docs/api/fred/related_tags.html).
 
@@ -175,8 +175,8 @@ Get the series matching all of `tag_names`
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `order_by`: TODO
-- `sort_order`: TODO
+- `order_by`: the field results are sorted by; one of `"series_id"`, `"title"`, `"units"`, `"frequency"`, `"seasonal_adjustment"`, `"realtime_start"`, `"realtime_end"`, `"last_updated"`, `"observation_start"`, `"observation_end"`, `"popularity"`, or `"group_popularity"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 
 See [`fred/tags/series`](https://fred.stlouisfed.org/docs/api/fred/tags_series.html).
 

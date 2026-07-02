@@ -22,8 +22,8 @@ Get all releases
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `order_by`: TODO
-- `sort_order`: TODO
+- `order_by`: the field results are sorted by; one of `"release_id"`, `"name"`, `"press_release"`, `"realtime_start"`, or `"realtime_end"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 
 See [`fred/releases`](https://fred.stlouisfed.org/docs/api/fred/releases.html).
 
@@ -82,8 +82,8 @@ Get release dates for all releases
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `order_by`: TODO
-- `sort_order`: TODO
+- `order_by`: the field results are sorted by; one of `"release_date"`, `"release_id"`, or `"release_name"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 - `include_release_dates_with_no_data`: TODO
 
 See [`fred/releases/dates`](https://fred.stlouisfed.org/docs/api/fred/releases_dates.html).
@@ -198,7 +198,7 @@ Gets release dates for a single data release
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `sort_order`: TODO
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 - `include_release_dates_with_no_data`: TODO
 
 See [`fred/release/dates`](https://fred.stlouisfed.org/docs/api/fred/release_dates.html).
@@ -253,8 +253,8 @@ Get the series for a data release
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `order_by`: TODO
-- `sort_order`: TODO
+- `order_by`: the field results are sorted by; one of `"series_id"`, `"title"`, `"units"`, `"frequency"`, `"seasonal_adjustment"`, `"realtime_start"`, `"realtime_end"`, `"last_updated"`, `"observation_start"`, `"observation_end"`, `"popularity"`, or `"group_popularity"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 - `filter_variable`: TODO
 - `filter_value`: TODO
 - `tag_names`: TODO
@@ -380,8 +380,8 @@ Get the tags for a release
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `order_by`: TODO
-- `sort_order`: TODO
+- `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 
 See [`fred/release/tags`](https://fred.stlouisfed.org/docs/api/fred/release_tags.html).
 
@@ -457,8 +457,8 @@ Get related tags for `tag_names` within release `release_id`
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `order_by`: TODO
-- `sort_order`: TODO
+- `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 
 See [`fred/release/related_tags`](https://fred.stlouisfed.org/docs/api/fred/release_related_tags.html).
 

@@ -116,8 +116,8 @@ Get the series available in the `category_id` category
 - `realtime_end`: the last date of the real-time period over which the data is valid; defaults to today.
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `order_by`: TODO
-- `sort_order`: TODO
+- `order_by`: the field results are sorted by; one of `"series_id"`, `"title"`, `"units"`, `"frequency"`, `"seasonal_adjustment"`, `"realtime_start"`, `"realtime_end"`, `"last_updated"`, `"observation_start"`, `"observation_end"`, `"popularity"`, or `"group_popularity"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 - `filter_variable`: TODO
 - `filter_value`: TODO
 - `tag_names`: TODO
@@ -208,8 +208,8 @@ Get the tags for the `category_id` category
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `order_by`: TODO
-- `sort_order`: TODO
+- `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 
 See [`fred/category/tags`](https://fred.stlouisfed.org/docs/api/fred/category_tags.html).
 
@@ -285,8 +285,8 @@ Get the related tags for one or more tags within a category
 - `search_text`: TODO
 - `limit`: the upper bound on the number of results to return.
 - `offset`: the number of the first result to return, for paginating through results beyond `limit`.
-- `order_by`: TODO
-- `sort_order`: TODO
+- `order_by`: the field results are sorted by; one of `"series_count"`, `"popularity"`, `"created"`, `"name"`, or `"group_id"`.
+- `sort_order`: sort results in ascending (`"asc"`, the default) or descending (`"desc"`) order.
 
 See [`fred/category/related_tags`](https://fred.stlouisfed.org/docs/api/fred/category_related_tags.html).
 
