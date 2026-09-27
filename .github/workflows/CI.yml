@@ -29,7 +29,8 @@ jobs:
         version:
           - 'lts'
           - '1.12'
-          - '1.12-nightly'
+          - '1.13'
+          - '1.13-nightly'
           # - 'pre'
         os:
           - ubuntu-latest
